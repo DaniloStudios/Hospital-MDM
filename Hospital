@@ -838,7 +838,7 @@ begin
      begin
          rewrite(arq);
      end;
-     //carregando;
+     carregando;
      REPEAT
            contornos;
            menuescolha;
