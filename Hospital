@@ -1,0 +1,893 @@
+program quartobimestre;
+uses crt;
+const
+     preto=0;
+     azulescuro=1;
+     verdeescuro=2;
+     cianoescuro=3;
+     vermelhoescuro=4;
+     magentaescuro=5;
+     marrom=6;
+     cinzaescuro=8;
+     cinza=7;
+     azul=9;
+     verde=10;
+     ciano=11;
+     vermelho=12;
+     magenta=13;
+     amarelo=14;
+     branco=15;
+type
+    dados=record
+                iCod:integer;
+                sNome:string[30];
+                iIdade:integer;
+                cGenero:char;
+                sConvenio:string[15];
+                iQuarto:integer;
+                cFuma:char;
+                bExcluido:boolean;
+          end;
+    arquivo= file of dados;
+var
+   vetorReg:array [1..1000] of integer;
+   sIdade,sGenero,sQuarto,sFuma,sResp:string;
+   iX,iY,iCodProcurado,iC,iSoma,iAux,iErro,iAux2,iAux3,iPag,iSoma1,iAux4,iPagTotal:integer;
+   key,cResp:char;
+   reg:dados;
+   arq:arquivo;
+   sAux:string[30];
+   sNomeProcurado:string[30];
+//*****************************************************************************
+//CONTORNOS
+procedure contornos;
+var
+   iX,iY:integer;
+begin
+     textbackground(preto);
+     clrscr;
+     textcolor(vermelho);
+     for iY:=2 to 79 do
+     begin
+          gotoxy(iY,1);
+          write(#205);
+          gotoxy(iY,24);
+          write(#205);
+          gotoxy(iY,3);
+          write(#205);
+     end;
+     for iX:=2 to 23 do
+     begin
+          gotoxy(1,iX);
+          write(#186);
+          gotoxy(80,iX);
+          write(#186);
+     end;
+     gotoxy(34,2); textcolor(branco);
+     write('HOSPITAL MDM');
+     textcolor(lightred);
+     gotoxy(1,1);
+     write(#201);
+     gotoxy(80,1);
+     write(#187);
+     gotoxy(80,24);
+     write(#188);
+     gotoxy(1,24);
+     write(#200);
+     gotoxy(1,3);
+     write(#204);
+     gotoxy(80,3);
+     write(#185);
+end;
+//******************************************************************************
+//CARREGANDO
+procedure carregando;
+var
+   iCONT,iAUX:INTEGER;
+begin
+     cursoroff;
+     textcolor(cinzaescuro);
+     gotoxy(8,2);writeln(#219,#219,'   ',         #219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219);
+     gotoxy(8,3);writeln(#219,#219,'   ',         #219,#219,'  ',#219,#219,'   ',         #219,#219,'  ',#219,#219                    ,'       ',#219,#219,'   ',         #219,#219,'   ',    #219,#219,'   '        ,'  ', #219,#219,'  '     ,'  ',#219,#219,'   ',         #219,#219,'  ',#219,#219);
+     gotoxy(8,4);writeln(#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,'   ',         #219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'   ',    #219,#219,'   '        ,'  ', #219,#219,'  '     ,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219);
+     gotoxy(8,5);writeln(#219,#219,'   ',         #219,#219,'  ',#219,#219,'   ',         #219,#219,'  ','     ',                 #219,#219,'  ',#219,#219,'     '                 ,'   ',    #219,#219,'   '        ,'  ', #219,#219,'  '     ,'  ',#219,#219,'   ',         #219,#219,'  ',#219,#219);
+     gotoxy(8,6);writeln(#219,#219,'   ',         #219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,#219,#219,#219,#219,#219,'  ',#219,#219,'     '                 ,'  ',#219,#219,#219,#219,'  ','  ',     #219,#219,'  '     ,'  ',#219,#219,'   ',         #219,#219,'  ',#219,#219,#219,#219,#219,#219,#219);
+     //
+     gotoxy(28,8); writeln(#219,#219,'   '        ,#219,#219,'  ',#219,#219,#219,'  '   ,'  ',#219,#219,'   '        ,#219,#219);
+     gotoxy(28,9); Writeln(#219,#219,#219,' ',#219,#219,#219,'  ',#219,#219,' ',#219,' ','  ',#219,#219,#219,' ',#219,#219,#219);
+     gotoxy(28,10);writeln(#219,#219,' ',#219,' ' ,#219,#219,'  ',#219,#219,'  ',   #219,'  ',#219,#219,' ',#219,' ' ,#219,#219);
+     gotoxy(28,11);writeln(#219,#219,'   '        ,#219,#219,'  ',#219,#219,' ',#219,' ','  ',#219,#219,'   '        ,#219,#219);
+     gotoxy(28,12);writeln(#219,#219,'   '        ,#219,#219,'  ',#219,#219,#219,'  '   ,'  ',#219,#219,'   '        ,#219,#219);
+     //
+     textcolor(white);
+     gotoxy(19,14);writeln('      ',#219);
+     gotoxy(19,15);writeln('      ',#219);
+     gotoxy(19,16);writeln(#219,'     '#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(19,17);writeln(#219,#219,#219,#219,#219,#219,#219,'                             ',                                                                                               #219,#219);
+     gotoxy(19,18);writeln(#219,#219,#219,#219,#219,#219,#219,'                             ',                                                                                               #219,#219,#219,#220,#220,#220,#220,#220,#220,#220,#220);
+     gotoxy(19,19);writeln(#219,#219,#219,#219,#219,#219,#219,'                             ',                                                                                               #219,#219,#219,#223,#223,#223,#223,#223,#223,#223,#223);
+     gotoxy(19,20);writeln(#219,#219,#219,#219,#219,#219,#219,'                             ',                                                                                               #219,#219);
+     gotoxy(19,21);writeln(#219,'     '#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(19,22);writeln('      ',#219);
+     gotoxy(19,23);writeln('      ',#219);
+     iaux:=55;
+     for iCont:=1 to 145 do
+     begin
+          textcolor(vermelho);
+          delay(15);
+          if(iCont mod 5=0) then
+          begin
+               iaux:=iaux-1;
+               gotoxy(iaux,17);
+ 			   writeln(#219);
+               gotoxy(iaux,18);
+               writeln(#219);
+               gotoxy(iaux,19);
+               writeln(#219);
+               gotoxy(iaux,20);
+               writeln(#219);
+          end;
+     end;
+end;
+//*****************************************************************************
+//TELA CADASTRO
+procedure tela(reg:dados);
+begin
+     contornos;
+     textcolor(branco);
+     gotoxy(3,5); write('C',#162,'digo: ',reg.iCod);
+     gotoxy(3,7); write('N',#248,' do quarto: ');
+     gotoxy(3,9); write('Nome: ');
+     gotoxy(3,11); write('Idade: '); 
+     gotoxy(3,13); write('G',#136,'nero (M/F): ');
+     gotoxy(3,15); write('Conv',#136,'nio m',#130,'dico: ');
+     gotoxy(3,17); write('Fuma (S/N)? ');
+     textcolor(vermelho);
+     gotoxy(53,6);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(53,7);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(53,8);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(52,9);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(51,10);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(cinza);
+     gotoxy(50,11);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(49,12);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(48,13);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(47,14);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(46,15);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(47,16);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(48,17);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(49,18);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(50,19);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(51,20);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(52,21);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(53,22);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(azul);
+     gotoxy(57,13);
+     write(#219);
+     gotoxy(64,13);
+     write(#219);
+     textcolor(branco);
+     gotoxy(63,13);
+     write(#219);
+     gotoxy(56,13);
+     write(#219);
+     gotoxy(56,12);
+     write(#219,#219);
+     gotoxy(63,12);
+     write(#219,#219);
+     textcolor(preto);
+     gotoxy(56,18);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(55,17);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(54,16);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(vermelhoescuro);
+     gotoxy(58,18);
+     write(#219,#219,#219,#219,#219,#219);
+     textcolor(branco);
+     gotoxy(60,7);writeln(#219);
+     gotoxy(59,8);writeln(#219,#219,#219);
+     gotoxy(60,9);writeln(#219);
+end;
+//******************************************************************************
+//OPÇÃO CADASTRO
+procedure cadastro;
+var
+iTamanho,iCont:Integer;
+begin
+     reset(arq);
+     CLRSCR;
+     CURSORON;
+     contornos;
+     seek(arq,filesize(arq));
+     repeat
+           reg.iCod:=filesize(arq)+1;
+           tela(reg);
+           textcolor(branco);
+           with reg do
+           begin
+                //*************************************************************
+                //QUARTO
+                gotoxy(17,7);
+                readln(sQuarto);
+                val(sQuarto,iQuarto,iErro);
+                while (iErro<>0) or (iQuarto>1000) or (iQuarto<1) do
+                begin
+                     sound(100);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,7);
+                     clreol;
+                     write('Quarto invalido. Redigite: ');
+                     textcolor(vermelho);
+                     gotoxy(80,7);
+                     write(#186);
+                     gotoxy(53,7);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     gotoxy(60,7);
+                     textcolor(branco);
+                     writeln(#219);
+                     textcolor(branco);
+                     gotoxy(30,7);
+                     readln(sQuarto);
+                     val(sQuarto,iQuarto,iErro);
+                end;
+                gotoxy(3,7);
+                clreol;
+                textcolor(vermelho);
+                gotoxy(80,7);
+                write(#186);
+                gotoxy(53,7);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                gotoxy(60,7);
+                textcolor(branco);
+                writeln(#219);
+                gotoxy(3,7);
+                textcolor(branco);
+                write('N',#248,' do quarto: ',iQuarto);
+                //*************************************************************
+                //NOME
+                gotoxy(9,9);
+                readln(sNome);
+                for iC:=1 to length(sNome) do
+                begin
+                     sNome[iC]:=upcase(sNome[iC]);
+                end;
+                gotoxy(3,9);
+                clreol;
+                textcolor(lightred);
+                gotoxy(80,9);
+                writeln(#186);
+                gotoxy(52,9);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                textcolor(white);
+                gotoxy(60,9);
+                writeln(#219);
+                gotoxy(3,9);
+                writeln('Nome: ',sNome);
+                //*************************************************************
+                //IDADE
+                gotoxy(10,11);
+                readln(sIdade);
+                val(sIdade,iIdade,iErro);
+                while (iIdade<1) or (iIdade>110) or (iErro<>0) do
+                begin
+                     sound(1000);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,11);
+                     clreol;
+                     write('Idade Invalida. Redigite: ');
+                     textcolor(vermelho); gotoxy(80,11);
+                     write(#186);
+                     gotoxy(50,11);
+                     textcolor(cinza);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     textcolor(branco);
+                     gotoxy(30,11);
+                     readln(sIdade);
+                     val(sIdade,iIdade,iErro);
+                end;
+                gotoxy(3,11);
+                clreol;
+                gotoxy(80,11);
+                textcolor(lightred);
+                write(#186);
+                gotoxy(50,11);
+                textcolor(cinza);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                gotoxy(3,11);
+                textcolor(branco);
+                write('Idade: ',iIdade);
+                //*************************************************************
+                //GENERO
+                gotoxy(17,13);
+                readln(sGenero);
+                sGenero:=upcase(sGenero);
+                while ((sGenero[1]<>'F') and (sGenero[1]<>'M')) or (length(sGenero)>1) do
+                begin
+                     sound(1000);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,13);
+                     clreol;
+                     write('Genero Invalido. Redigite: ');
+                     gotoxy(80,13);
+                     textcolor(vermelho);
+                     write(#186);
+                     textcolor(cinza);
+                     gotoxy(48,13);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     textcolor(azul);
+                     gotoxy(57,13);
+                     write(#219);
+                     gotoxy(64,13);
+                     write(#219);
+                     textcolor(branco);
+                     gotoxy(63,13);
+                     write(#219);
+                     gotoxy(56,13);
+                     write(#219);
+                     textcolor(branco);
+                     gotoxy(31,13);
+                     readln(sGenero);
+                     sGenero:=upcase(sGenero);
+                end;
+                cGenero:=sGenero[1];
+                gotoxy(3,13);
+                clreol;
+                gotoxy(80,13);
+                textcolor(lightred);
+                write(#186);
+                textcolor(cinza);
+                gotoxy(48,13);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                textcolor(azul);
+                gotoxy(57,13);
+                write(#219);
+                gotoxy(64,13);
+                write(#219);
+                textcolor(branco);
+                gotoxy(63,13);
+                write(#219);
+                gotoxy(56,13);
+                write(#219);
+                gotoxy(3,13);
+                textcolor(branco);
+                write('G',#136,'nero (M/F): ',cGenero);
+                //*************************************************************
+                //CONVENIO
+                gotoxy(20,15);
+                readln(sConvenio);
+                iTamanho:=length(sConvenio);
+                for iCont:=1 to iTamanho do
+                sConvenio[iCont]:=upcase(sConvenio[iCont]);
+                gotoxy(3,15);
+                clreol;
+                gotoxy(80,15);
+                textcolor(lightred);
+                write(#186);
+                textcolor(cinza);
+                gotoxy(46,15);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                textcolor(branco);
+                gotoxy(3,15);
+                writeln('Conv',#136,'nio m',#130,'dico: ',sConvenio);
+                //*************************************************************
+                //FUMA
+                gotoxy(15,17);
+                readln(sFuma);
+                sFuma:=Upcase(sFuma);
+                while ((sFuma[1]<>'S') and (sFuma[1]<>'N')) or (length(sFuma)>1) do
+                begin
+                     sound(1000);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,17);
+                     clreol;
+                     write('Resposta Invalida. Redigite: ');
+                     gotoxy(80,17);
+                     textcolor(lightred);
+                     write(#186);
+                     gotoxy(48,17);
+                     textcolor(cinza);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     gotoxy(55,17);
+                     textcolor(preto);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     textcolor(branco);
+                     gotoxy(32,17);
+                     readln(sFuma);
+                     sFuma:=upcase(sFuma);
+                end;
+                cFuma:=sFuma[1];
+                gotoxy(3,17);
+                clreol;
+                gotoxy(80,17);
+                textcolor(lightred);
+                write(#186);
+                gotoxy(48,17);
+                textcolor(cinza);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                gotoxy(55,17);
+                textcolor(preto);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                gotoxy(3,17);
+                textcolor(branco);
+                write('Fuma (S/N)? ',cFuma);
+                //*************************************************************
+                //CADASTRAR PACIENTE?
+                gotoxy(3,21);
+                write('Cadastrar paciente (S/N)? ');
+                readln(sResp);
+                sResp:=upcase(sResp);
+                while ((sResp[1]<>'S') and (sResp[1]<>'N')) or (length(sResp)>1) do
+                begin
+                     sound(1000);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,21);
+                     clreol;
+                     write('Resposta invalida. Redigite: ');
+                     gotoxy(80,21);
+                     textcolor(lightred);
+                     write(#186);
+                     gotoxy(52,21);
+                     textcolor(cinza);
+                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                     textcolor(branco);
+                     gotoxy(33,21);
+                     readln(sResp);
+                     sResp:=upcase(sResp);
+                end;
+                cResp:=sResp[1];
+                gotoxy(3,21);
+                clreol;
+                gotoxy(80,21);
+                textcolor(lightred);
+                write(#186);
+                gotoxy(52,21);
+                textcolor(cinza);
+                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+                gotoxy(3,21);
+                textcolor(branco);
+                write('Cadastrar paciente (S/N)? ',cResp);
+                if (cResp='S') then
+                begin
+                     bExcluido:=false;
+                     write(arq,reg);
+                end
+                else
+                begin
+                     dec(reg.iCod);
+                end;
+                //*************************************************************
+                //CONTINUAR CADASTRO?
+                gotoxy(3,23);
+                write('Continuar cadastro (S/N)? ');
+                readln(cResp);
+                cResp:=upcase(cResp);
+                while ((cResp)<>'S') and (upcase(cResp)<>'N') do
+                begin
+                     sound(1000);
+                     delay(100);
+                     nosound;
+                     gotoxy(3,23);
+                     clreol;
+                     write('Resposta invalida. Redigite: ');
+                     gotoxy(80,23);
+                     textcolor(lightred);
+                     write(#186);
+                     gotoxy(33,23);
+                     textcolor(branco);
+                     readln(cResp);
+                     cResp:=upcase(cResp);
+                end;
+                gotoxy(3,23);
+                clreol;
+                gotoxy(80,23);
+                textcolor(lightred);
+                write(#186);
+                gotoxy(3,23);
+                textcolor(branco);
+                write('Continuar cadastro (S/N)? ',cResp);
+                if (cResp='S') then
+                begin
+                     clrscr;
+                     contornos;
+                     tela(reg);
+                end
+                else
+                begin
+                     exit;
+                end;
+           end;
+     until (upcase(cResp)='N');
+end;
+//******************************************************************************
+//CONSULTA POR NOME
+procedure pornome;
+begin
+     reset(arq);
+     iPagTotal:=0;
+	 clrscr;
+	 contornos;
+	 gotoxy(5,5);
+     textcolor(branco);
+	 write('Digite o nome do paciente: ');
+	 readln(sNomeProcurado);
+     clrscr;
+     for iC:=1 to length(sNomeProcurado) do
+     begin
+          sNomeProcurado[iC]:=upcase(sNomeProcurado[iC]);
+     end;
+     iAux2:=pos(sNomeProcurado,reg.sNome);
+     for iC:=0 to filesize(arq)-1 do
+     begin
+          seek(arq,iC);
+          read(arq,reg);
+          with reg do
+          begin
+               if ((iAux2<>0) and (not bExcluido)) or ((sNomeProcurado=sNome) and (not bExcluido)) then
+               begin
+                    inc(iPagTotal);
+                    vetorReg[iPagTotal]:=iC;
+               end;
+          end;
+     end;
+     iPag:=1;
+     iC:=1;
+     if (iPagTotal>0) then
+     begin
+          repeat
+                gotoxy(76,23); write(iPag,'/',iPagTotal);
+                seek(arq,iC);
+                with reg do
+                begin
+                     textcolor(branco);
+                     gotoxy(3,5); write('C',#162,'digo: ',reg.iCod);
+                     gotoxy(3,7); write('N',#248,' do quarto: ',iQuarto);
+                     gotoxy(3,9); write('Nome: ',sNome);
+                     gotoxy(3,11); write('Idade: ',iIdade);
+                     gotoxy(3,13); write('G',#136,'nero (M/F): ',cGenero);
+                     gotoxy(3,15); write('Conv',#136,'nio m',#130,'dico: ',sConvenio);
+                     gotoxy(3,17); write('Fuma (S/N)? ',cFuma);
+                end;
+                key:=readkey;
+                if (key=#77) and (iPag<iPagTotal) then
+                begin
+                     clrscr;
+                     inc(iC);
+                     inc(iPag);
+                end;
+                if (key=#75) and (iPag>1) then
+                begin
+                     clrscr;
+                     dec(iC);
+                     dec(iPag);
+                end;
+           until (key=#13);
+      end;
+end;
+//******************************************************************************
+//CONSULTA POR CÓDIGO
+procedure porcodigo;
+begin
+	clrscr;
+	contornos;
+	gotoxy(5,5);
+    textcolor(branco);
+	write('Digite o codigo do paciente: ');
+	readln(iCodProcurado);
+	reset(arq);
+    iSoma:=0;
+    //TESTE
+	for iC:=1 to filesize(arq) do
+	begin
+         with reg do
+         begin
+		      read(arq,reg);
+		      if (iCodProcurado=iCod) then
+	          begin
+                   inc(iSoma);
+                   break;
+		      end;
+         end;
+    end;
+    if (iSoma>0) then
+    begin
+         clrscr;
+         contornos;
+         tela(reg);
+         gotoxy(17,7);
+         write(reg.iQuarto);
+         gotoxy(9,9);
+         write(reg.sNome);
+         gotoxy(10,11);
+         write(reg.iIdade);
+         gotoxy(17,13);
+         write(reg.cGenero);
+         gotoxy(20,15);
+         write(reg.sConvenio);
+         gotoxy(15,17);
+         write(reg.cFuma);
+    end;
+    if (iSoma=0) then
+    begin
+         clrscr;
+         contornos;
+         gotoxy(32,12);
+         textcolor(branco);
+         write('CODIGO INVALIDO!');
+         readkey;
+    end;
+
+end;
+//******************************************************************************
+//CONSULTA GLOBAL
+procedure global;
+begin
+	clrscr;
+	contornos;
+	reset(arq);
+	for iC:=1 to filesize(arq) do
+	begin
+		read(arq,reg);
+		for iAux:=4 to 5 do
+		begin
+             gotoxy(6,iAux);
+             write(#186);
+             gotoxy(13,iAux);
+			 write(#186);
+             gotoxy(41,iAux);
+			 write(#186);
+             gotoxy(47,iAux);
+			 write(#186);
+		     gotoxy(54,iAux);
+			 write(#186);
+		     gotoxy(70,iAux);
+			 write(#186);
+		end;
+		for iAux:=2 to 79 do
+		begin
+			gotoxy(iAux ,5);
+			write(#205);
+		end;
+        gotoxy(1,5); write(#204);
+        gotoxy(80,5); write(#185);
+        gotoxy(6,3); write(#203);
+        gotoxy(13,3); write(#203);
+        gotoxy(41,3); write(#203);
+        gotoxy(47,3); write(#203);
+        gotoxy(54,3); write(#203);
+        gotoxy(70,3); write(#203);
+        gotoxy(6,5); write(#202);
+        gotoxy(13,5); write(#202);
+        gotoxy(41,5); write(#202);
+        gotoxy(47,5); write(#202);
+        gotoxy(54,5); write(#202);
+        gotoxy(70,5); write(#202);
+        textcolor(preto);
+        gotoxy(2,4); write('COD.');
+        gotoxy(7,4); write('QUARTO');
+        gotoxy(25,4); write('NOME');
+        gotoxy(42,4); write('IDADE');
+        gotoxy(48,4); write('GENERO');
+        gotoxy(58,4); write('CONVENIO');
+        gotoxy(73,4); write('FUMA');
+     end;
+end;
+//***************************************************************************
+//PROCEDURE CONSULTA
+procedure consulta;
+begin
+    repeat
+	         reset(arq);
+	         clrscr;
+	         contornos;
+             textcolor(branco);
+	         gotoxy(5,5);
+             write('CONSULTA POR CODIGO');
+             gotoxy(5,8);
+             write('CONSULTA POR NOME');
+             gotoxy(5,11);
+             write('CONSULTA GLOBAL');
+             gotoxy(5,14);
+             write('VOLTAR');
+             iX:=5;
+             cursoroff;
+             textcolor(vermelho);
+             repeat
+                   gotoxy(3,iX);
+           	       write(#26);
+                   key:=readkey;
+                   if (key=#72) and (iX>5) then
+                   begin
+                          gotoxy(3,iX);
+                          write(' ');
+                          dec(iX,3);
+                 end;
+                if (key=#80) and (iX<14) then
+               begin
+                        gotoxy(3,iX);
+                        write(' ');
+                        inc(iX,3);
+               end;
+           until (key=#13);
+	case iX of 
+	5: begin
+            porcodigo;
+       end;
+	8: begin
+		    pornome;
+       end;
+    11:BEGIN
+            global;
+       end;
+    14:begin
+            exit;
+       end;
+	end;
+    cursoron;
+    gotoxy(3,23);
+    write('Deseja continuar consultando (S/N)? ');
+    readln(sResp);
+    while ((upcase(sResp[1])<>'S') and (upcase(sResp[1])<>'N')) or (length(sResp)>1) do
+    begin
+         sound(1000);
+         delay(100);
+         nosound;
+         gotoxy(5,23);
+         clreol;
+         write('Resposta invalida. Redigite: ');
+         gotoxy(80,23);
+         textcolor(lightred);
+         write(#186);
+         gotoxy(35,23);
+         textcolor(branco);
+         readln(sResp);
+    end;
+    cResp:=sResp[1];
+    gotoxy(3,23);
+    clreol;
+    gotoxy(80,23);
+    textcolor(vermelho);
+    write(#186);
+    gotoxy(3,23);
+    textcolor(branco);
+    write('Deseja continuar consultando (S/N)? ',cResp);
+    until (upcase(cResp)='N');
+end;
+        
+//******************************************************************************
+//MENU PRINCIPAL - ESCOLHA
+procedure menuescolha;
+begin
+     contornos;
+     textcolor(branco);
+     gotoxy(5,5);
+     write('CADASTRAR INFORMA',#128 ,#229,'ES');
+     gotoxy(5,8);
+     write('CONSULTAR INFORMA',#128,#229,'ES');
+     gotoxy(5,11);
+     write('ALTERAR INFORMA',#128,#229,'ES');
+     gotoxy(5,14);
+     write('EXCLUIR INFORMA',#128,#229,'ES');
+     gotoxy(5,17);
+     write('FIM');
+     iX:=5;
+     cursoroff;
+     repeat
+           textcolor(ciano);
+           gotoxy(3,iX);
+           write(#26);
+           key:=readkey;
+           gotoxy(5,iX);
+           if (key=#72) and (iX>5) then
+           begin
+                gotoxy(3,iX);
+                write(' ');
+                dec(iX,3);
+           end;
+           if (key=#80) and (iX<17) then
+           begin
+                gotoxy(3,iX);
+                write(' ');
+                inc(iX,3);
+           end;
+     until (key=#13);
+     case iX of
+     5:begin
+            cadastro;
+       end;
+     8:BEGIN
+            consulta;
+       end;
+     end;
+end;
+//******************************************************************************
+//BLOCO PRINCIPAL
+begin
+     assign(arq,'c:\Trabalho\HOSPITAL.DAT');
+     {$i-}
+     reset(arq);
+     {$i+}
+     if (IOResult = 0) then
+     begin
+          reset(arq);
+     end
+     else
+     begin
+         rewrite(arq);
+     end;
+     //carregando;
+     REPEAT
+           contornos;
+           menuescolha;
+     UNTIL (iX=17);
+end.
+
+{COISAS A FAZEr
+               - ALTERAR BELEZA DO PROGRAMA
+               - FAZER ESQUEMA DE DEIXAR TODAS AS LETRAS MAIUSCULAS NA PROCURA PARA FACILITAR A VIDA DO USUARIO --> Pronto? Talvez!!!
+}
+{
+
+
+================================================================================
+               _________________
+              |                 |     |    |  ___   ___        ___   |    |
+              |   ___     ___   |     |\  /| |   | |     |    |   |  |    |
+              |  |   |   |   |  |     | \/ | |___| |     |    |___|  | /\ |
+              |  |   |   |   |  |     |    | |   | |     |    |   |  |/  \|
+              |  |   |   |   |  |     |    | |   | |___  |___ |   |  |    |
+              |  |___|   |___|  |
+              |                 |    ____  _____                  ___    _____
+              |___    ____   ___|   |        |   |   |  |\   |   |   |  |
+                  |  |    |  |      |___     |   |   |  | \  |   |   |  |____
+                  |  |    |  |          |    |   |   |  | /  |   |   |       |
+                  |  |    |  |      ____|    |   |___|  |/   |   |___|  _____|
+                  |__|    |__|
+
+
+  Maclaw Studios LLC;
+  Maria Studios LLC;
+  Mateus Studios LLC;
+  All rights reserved;
+  Proibia cópia ou distribuição de qualquer trecho desse programa(Salvo o caso de concentimento da Equipe DHR);
+  Ariane Scarelli -> Total permissão para uso de quaisquer linhas desse programa(Salvo o caso de uso indevido);
+  Este programa está protegido por direitos autorais, e modificá-lo sem aviso-prévio acarretará nas mais severas punições previstas na lei;
+  Atenciosamente
+
+  Hospital
+    ___
+   |   |
+   | M | aria
+   | D | anilo
+   | M | mateus
+   |___|
+
+  Copyright 2013 - Hospital MDM Team - All rights reserved
+
+================================================================================
+
+
+}
