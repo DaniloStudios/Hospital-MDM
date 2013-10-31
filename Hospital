@@ -38,7 +38,76 @@ var
    arq:arquivo;
    sAux:string[30];
    sNomeProcurado:string[30];
-//*****************************************************************************
+//******************************************************************************
+//Procedure-Cara Triste*********************************************************
+procedure cara;
+begin
+     textcolor(lightred);
+     gotoxy(47,6);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(47,7);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(47,8);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(46,9);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(45,10);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(white);
+     gotoxy(44,11);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(43,12);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(42,13);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(41,14);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(40,15);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(41,16);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(42,17);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(43,18);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(44,19);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(45,20);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(46,21);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(47,22);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(blue);
+     gotoxy(51,13);
+     write(#219);
+     gotoxy(58,13);
+     write(#219);
+     textcolor(black);
+     gotoxy(57,13);
+     write(#219);
+     gotoxy(50,13);
+     write(#219);
+     gotoxy(50,12);
+     write(#219,#219);
+     gotoxy(57,12);
+     write(#219,#219);
+     gotoxy(50,16);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(49,17);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     gotoxy(48,18);
+     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
+     textcolor(red);
+     gotoxy(52,18);
+     write(#219,#219,#219,#219,#219,#219);
+     textcolor(white);
+     gotoxy(54,7);writeln(#219);
+     gotoxy(53,8);writeln(#219,#219,#219);
+     gotoxy(54,9);writeln(#219);
+     cursoron;
+end;
+//******************************************************************************
 //CONTORNOS
 procedure contornos;
 var
@@ -129,7 +198,7 @@ begin
           end;
      end;
 end;
-//*****************************************************************************
+//******************************************************************************
 //TELA CADASTRO
 procedure tela(reg:dados);
 begin
@@ -224,7 +293,7 @@ begin
            textcolor(branco);
            with reg do
            begin
-                //*************************************************************
+                //**************************************************************
                 //QUARTO
                 gotoxy(17,7);
                 readln(sQuarto);
@@ -263,7 +332,7 @@ begin
                 gotoxy(3,7);
                 textcolor(branco);
                 write('N',#248,' do quarto: ',iQuarto);
-                //*************************************************************
+                //**************************************************************
                 //NOME
                 gotoxy(9,9);
                 readln(sNome);
@@ -283,7 +352,7 @@ begin
                 writeln(#219);
                 gotoxy(3,9);
                 writeln('Nome: ',sNome);
-                //*************************************************************
+                //**************************************************************
                 //IDADE
                 gotoxy(10,11);
                 readln(sIdade);
@@ -317,7 +386,7 @@ begin
                 gotoxy(3,11);
                 textcolor(branco);
                 write('Idade: ',iIdade);
-                //*************************************************************
+                //**************************************************************
                 //GENERO
                 gotoxy(17,13);
                 readln(sGenero);
@@ -373,7 +442,7 @@ begin
                 gotoxy(3,13);
                 textcolor(branco);
                 write('G',#136,'nero (M/F): ',cGenero);
-                //*************************************************************
+                //**************************************************************
                 //CONVENIO
                 gotoxy(20,15);
                 readln(sConvenio);
@@ -391,7 +460,7 @@ begin
                 textcolor(branco);
                 gotoxy(3,15);
                 writeln('Conv',#136,'nio m',#130,'dico: ',sConvenio);
-                //*************************************************************
+                //**************************************************************
                 //FUMA
                 gotoxy(15,17);
                 readln(sFuma);
@@ -433,7 +502,7 @@ begin
                 gotoxy(3,17);
                 textcolor(branco);
                 write('Fuma (S/N)? ',cFuma);
-                //*************************************************************
+                //**************************************************************
                 //CADASTRAR PACIENTE?
                 gotoxy(3,21);
                 write('Cadastrar paciente (S/N)? ');
@@ -479,7 +548,7 @@ begin
                 begin
                      dec(reg.iCod);
                 end;
-                //*************************************************************
+                //**************************************************************
                 //CONTINUAR CADASTRO?
                 gotoxy(3,23);
                 write('Continuar cadastro (S/N)? ');
@@ -695,7 +764,7 @@ begin
         gotoxy(73,4); write('FUMA');
      end;
 end;
-//***************************************************************************
+//******************************************************************************
 //PROCEDURE CONSULTA
 procedure consulta;
 begin
@@ -724,7 +793,7 @@ begin
                           gotoxy(3,iX);
                           write(' ');
                           dec(iX,3);
-                 end;
+                   end;
                 if (key=#80) and (iX<14) then
                begin
                         gotoxy(3,iX);
@@ -776,7 +845,110 @@ begin
     write('Deseja continuar consultando (S/N)? ',cResp);
     until (upcase(cResp)='N');
 end;
-        
+//******************************************************************************
+// EXCLUIR INFORMAÇÕOES
+procedure excluir(var arquivos:arquivo);
+var
+   iCod,iAux,iPos:integer;
+   cResp:char;
+begin
+     repeat
+     textbackground(blue);
+     clrscr;
+     contornos;
+     textcolor(white);
+     iAux:=1;
+     gotoxy(32,2);
+     write('Apagar Registros');
+     gotoxy(3,4);
+     write('Digite o Codigo do paciente a ser deletado: ');
+     readln(iCod);
+     clrscr;
+     contornos;
+     textcolor(white);
+     seek(arquivos,0);
+     while not(eof(arquivos)) do
+        begin
+             clrscr;
+             contornos;
+             textcolor(white);
+             read(arquivos,reg);
+         if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
+            begin
+                 iAux:=0;
+                 gotoxy(3,4);
+                 write('Codigo do Paciente: ',reg.iCod);
+                 gotoxy(3,7);
+                 write('Quarto do paciente: ',reg.iQuarto);
+                 gotoxy(3,10);
+                 write('Nome do paciente: ',reg.sNome);
+                 gotoxy(3,13);
+                 write('Idade do paciente: ',reg.iIdade);
+                 gotoxy(3,16);
+                 write('Genero: ',reg.cGenero);
+                 gotoxy(3,19);
+                 write('Convenio: ',reg.sConvenio);
+                 gotoxy(3,22);
+                 write('Fuma: ',reg.cFuma);
+                 gotoxy(40,11);
+                 write('Deseja apagar o arquivo (S/N)? ');
+                 cursoron;
+                 readln(cResp);
+                 cResp:=upcase(cResp);
+                 while not(cResp in ['S','N']) do
+                      begin
+                           gotoxy(3,23);
+                           write('Resposta Invalida! Deseja apagar (S/N)? ');
+                           readln(cResp);
+                           cResp:=upcase(cResp);
+                      end;
+                if cResp='S' then
+                   begin
+                     iPos:=filepos(arquivos)-1;
+                     seek(arquivos,iPos);
+                     reg.bExcluido:=TRUE;
+                     write(arquivos,reg);
+                     clrscr;
+                     contornos;
+                     textcolor(white);
+                     gotoxy(31,10);
+                     write('Registro Deletado!');
+                     readkey;
+                     iAux:=2;
+                   end
+                else
+                    begin
+                         eof(arquivos);
+                         iAux:=2;
+                    end;
+            end;
+        end;
+        clrscr;
+        contornos;
+        textcolor(white);
+        if iAux=1 then
+        begin
+           cara;
+           gotoxy(3,5);
+           write('Codigo nao encontrado!');
+           iAux:=2;
+        end;
+        if iAux=2 then
+        begin
+           gotoxy(3,7);
+           write('Deseja procurar novamente (S/N)? ');
+           readln(cResp);
+           cResp:=upcase(cResp);
+           while not(cResp in ['S','N']) do
+                 begin
+                      gotoxy(3,5);
+                      write('Resposta Invalida! Deseja procurar novamente? (S/N)? ');
+                      readln(cResp);
+                      cResp:=upcase(cResp);
+                  end;
+      end;
+     until (cResp='N');
+end;
 //******************************************************************************
 //MENU PRINCIPAL - ESCOLHA
 procedure menuescolha;
@@ -821,7 +993,10 @@ begin
      8:BEGIN
             consulta;
        end;
-     end;
+     14:Begin
+             excluir(arq);
+        end;
+      end;
 end;
 //******************************************************************************
 //BLOCO PRINCIPAL
@@ -845,7 +1020,7 @@ begin
      UNTIL (iX=17);
 end.
 
-{COISAS A FAZEr
+{COISAS A FAZER
                - ALTERAR BELEZA DO PROGRAMA
                - FAZER ESQUEMA DE DEIXAR TODAS AS LETRAS MAIUSCULAS NA PROCURA PARA FACILITAR A VIDA DO USUARIO --> Pronto? Talvez!!!
 }
@@ -872,9 +1047,10 @@ end.
   Maria Studios LLC;
   Mateus Studios LLC;
   All rights reserved;
-  Proibia cópia ou distribuição de qualquer trecho desse programa(Salvo o caso de concentimento da Equipe DHR);
+  Proibia cópia ou distribuição de qualquer trecho desse programa(Salvo o caso de concentimento da Equipe MDM);
   Ariane Scarelli -> Total permissão para uso de quaisquer linhas desse programa(Salvo o caso de uso indevido);
   Este programa está protegido por direitos autorais, e modificá-lo sem aviso-prévio acarretará nas mais severas punições previstas na lei;
+
   Atenciosamente
 
   Hospital
@@ -882,12 +1058,15 @@ end.
    |   |
    | M | aria
    | D | anilo
-   | M | mateus
+   | M | ateus
    |___|
 
   Copyright 2013 - Hospital MDM Team - All rights reserved
 
 ================================================================================
 
+Programa licenciado sob GPLv3
+
+--> Veja uma cópia do código fonte em: https://github.com/DaniloStudios/Hospital-MDM
 
 }
