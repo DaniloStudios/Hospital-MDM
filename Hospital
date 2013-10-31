@@ -846,6 +846,222 @@ begin
     until (upcase(cResp)='N');
 end;
 //******************************************************************************
+//Alteração
+//Procedure-Alteracao***********************************************************
+Procedure Alteracao (var arquivos:Arquivo; cCamp,cTipo:char;sText:string);
+var
+   cResp:char;
+   iPos:integer;
+   iNum:integer;{integer alterado}
+   cText1:char;{char alterado}
+   sText1:string;{string alterado}
+begin
+     repeat
+           textbackground(blue);
+           clrscr;
+           contornos;
+           textcolor(white);
+           gotoxy(3,5);
+           write('Dado a ser alterado: ',sText);
+           gotoxy(3,7);
+           write('Dado Atual: ');
+           gotoxy(3,9);
+           write('Alterar Para: ');
+           case cTipo of
+{integer}       'i': begin
+                         case cCamp of
+                              '2': begin
+                                        gotoxy(15,7);
+                                        write(reg.iQuarto);
+                                        gotoxy(17,9);
+                                        readln(iNum);
+                                   end;
+                              '4': begin
+                                        gotoxy(15,7);
+                                        write(reg.iIdade);
+                                        gotoxy(17,9);
+                                        readln(iNum);
+                                   end;
+                         end;
+                    end;
+{string}      's': begin
+                         case cCamp of
+                              '3': begin
+                                        gotoxy(15,7);
+                                        write(reg.sNome);
+                                        gotoxy(17,9);
+                                        readln(sText1);
+                                   end;
+                              '6': begin
+                                        gotoxy(15,7);
+                                        write(reg.sConvenio);
+                                        gotoxy(17,9);
+                                        readln(sText1);
+                                   end;
+                         end;
+                    end;
+{char}         'c': begin
+                         case cCamp of
+                              '5': begin
+                                        gotoxy(15,7);
+                                        write(reg.cGenero);
+                                        gotoxy(17,9);
+                                        readln(cText1);
+                                   end;
+                              '7': begin
+                                        gotoxy(15,7);
+                                        write(reg.cFuma);
+                                        gotoxy(17,9);
+                                        readln(cText1);
+                                   end;
+                        end;
+                    end;
+           end;
+           gotoxY(3,23);
+           write('Deseja confirmar alteracao (S/N)? ');
+           readln(cResp);
+           cResp:=upcase(cResp);
+           while not(cResp in ['S','N']) do
+                 begin
+                      gotoxy(3,23);
+                      write('Resposta Invalida! Deseja confirmar alteracao (S/N)? ');
+                      readln(cResp);
+                      cResp:=upcase(cResp);
+                 end;
+     until (cResp='S');
+     case cCamp of
+          '2':reg.iQuarto:=iNum;
+          '3':for iNum:=1 to length(sText1) do
+                  reg.sNome[iNum]:=upcase(sText1[iNum]);
+          '4':reg.iIdade:=iNum;
+          '5':reg.cGenero:=cText1;
+          '6':for iNum:=1 to length(sText1) do
+                  reg.sConvenio[iNum]:=upcase(sText1[iNum]);
+          '7':reg.cFuma:=cText1;
+
+     END;
+     iPos:=filepos(arquivos)-1;
+     seek(arquivos,iPos);
+     if cResp='S' then
+        write(arquivos,reg);
+end;
+//******************************************************************************
+// ALTERAR INFORMAÇÕES
+procedure altera (var arquivos: Arquivo);
+var
+   iCod,iAux:integer;
+   cResp,cCamp:char;
+begin
+     repeat
+     textbackground(blue);
+     clrscr;
+     contornos;
+     textcolor(white);
+     iAux:=1;
+     gotoxy(32,2);
+     write('Alterar Registros');
+     gotoxy(3,4);
+     write('Digite o Codigo do Item a ser Alterado: ');
+     readln(iCod);
+     clrscr;
+     contornos;
+     textcolor(white);
+     seek(arquivos,0);
+     while not(eof(arquivos)) do
+     begin
+          clrscr;
+          contornos;
+          textcolor(white);
+          read(arquivos,reg);
+         if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
+            begin
+                 iAux:=0;
+                 gotoxy(3,4);
+                 write('2- Numero do quarto: ',reg.iQuarto);
+                 gotoxy(3,7);
+                 write('3- Nome do paciente: ',reg.sNome);
+                 gotoxy(3,10);
+                 write('4- Idade do paciente: ',reg.iIdade);
+                 gotoxy(3,13);
+                 write('5- Genero: ',reg.cGenero);
+                 gotoxy(3,16);
+                 write('6- Convenio: ',reg.sConvenio);
+                 gotoxy(3,19);
+                 write('7- Fuma: ',reg.cFuma);
+                 gotoxy(3,23);
+                 write('Deseja alterar o arquivo (S/N)? ');
+                 readln(cResp);
+                 cResp:=upcase(cResp);
+                 while not(cResp in ['S','N']) do
+                      begin
+                           gotoxy(3,23);
+                           write('Resposta Invalida! Deseja alterar? ');
+                           readln(cResp);
+                           cResp:=upcase(cResp);
+                      end;
+                if cResp='S' then
+                   begin
+                     gotoxy(3,23);
+                     write('Deseja alterar qual campo de dados? ');
+                     readln(cCamp);
+                     while not(cCamp in ['2','3','4','5','6','7']) do
+                           begin
+                                  gotoxy(3,23);
+                                  write('Valor Invalido! Redigite o Campo Desejado: ');
+                                  readln(cCamp);
+                             end;
+                     case cCamp of
+                          '2': Alteracao(arquivos,cCamp,'i','Quarto');
+                          '3': Alteracao(arquivos,cCamp,'s','Nome');
+                          '4': Alteracao(arquivos,cCamp,'i','Idade');
+                          '5': Alteracao(arquivos,cCamp,'c','Genero');
+                          '6': Alteracao(arquivos,cCamp,'s','Convenio');
+                          '7': Alteracao(arquivos,cCamp,'c','Fuma');
+                     end;
+                     clrscr;
+                     contornos;
+                     textcolor(white);
+                     gotoxy(31,10);
+                     write('Registro Alterado!');
+                     readkey;
+                     iAux:=2;
+                   end;
+                if cResp='N' then
+                    begin
+                         iAux:=2;
+                         eof(arquivos);
+                    end;
+            end;
+        end;
+        clrscr;
+        contornos;
+        textcolor(white);
+        if iAux=1 then
+        begin
+           gotoxy(3,5);
+           write('Codigo nao encontrado!');
+           iAux:=2;
+           cara;
+        end;
+        if iAux=2 then
+        begin
+           gotoxy(3,5);
+           write('Codigo nao encontrado!');
+           gotoxy(3,8);
+           write('Deseja procurar novamente (S/N)? ');
+           readln(cResp);
+           cResp:=upcase(cResp);
+           while not(cResp in ['S','N']) do
+                 begin
+                      gotoxy(3,5);
+                      write('Resposta Invalida! Deseja procurar novamente? (S/N)? ');
+                      readln(cResp);
+                      cResp:=upcase(cResp);
+                  end;
+        end;
+     until (cResp='N');
+end;
+//******************************************************************************
 // EXCLUIR INFORMAÇÕOES
 procedure excluir(var arquivos:arquivo);
 var
@@ -993,6 +1209,9 @@ begin
      8:BEGIN
             consulta;
        end;
+     11:Begin
+             altera(arq);
+        end;
      14:Begin
              excluir(arq);
         end;
@@ -1019,11 +1238,6 @@ begin
            menuescolha;
      UNTIL (iX=17);
 end.
-
-{COISAS A FAZER
-               - ALTERAR BELEZA DO PROGRAMA
-               - FAZER ESQUEMA DE DEIXAR TODAS AS LETRAS MAIUSCULAS NA PROCURA PARA FACILITAR A VIDA DO USUARIO --> Pronto? Talvez!!!
-}
 {
 
 
