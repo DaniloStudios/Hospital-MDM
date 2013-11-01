@@ -188,7 +188,7 @@ begin
           begin
                iaux:=iaux-1;
                gotoxy(iaux,17);
- 			   writeln(#219);
+                            writeln(#219);
                gotoxy(iaux,18);
                writeln(#219);
                gotoxy(iaux,19);
@@ -597,12 +597,12 @@ procedure pornome;
 begin
      reset(arq);
      iPagTotal:=0;
-	 clrscr;
-	 contornos;
-	 gotoxy(5,5);
+         clrscr;
+         contornos;
+         gotoxy(5,5);
      textcolor(branco);
-	 write('Digite o nome do paciente: ');
-	 readln(sNomeProcurado);
+         write('Digite o nome do paciente: ');
+         readln(sNomeProcurado);
      clrscr;
      for iC:=1 to length(sNomeProcurado) do
      begin
@@ -660,25 +660,25 @@ end;
 //CONSULTA POR CÓDIGO
 procedure porcodigo;
 begin
-	clrscr;
-	contornos;
-	gotoxy(5,5);
+        clrscr;
+        contornos;
+        gotoxy(5,5);
     textcolor(branco);
-	write('Digite o codigo do paciente: ');
-	readln(iCodProcurado);
-	reset(arq);
+        write('Digite o codigo do paciente: ');
+        readln(iCodProcurado);
+        reset(arq);
     iSoma:=0;
     //TESTE
-	for iC:=1 to filesize(arq) do
-	begin
+        for iC:=1 to filesize(arq) do
+        begin
          with reg do
          begin
-		      read(arq,reg);
-		      if (iCodProcurado=iCod) then
-	          begin
+                      read(arq,reg);
+                      if (iCodProcurado=iCod) then
+                  begin
                    inc(iSoma);
                    break;
-		      end;
+                      end;
          end;
     end;
     if (iSoma>0) then
@@ -714,32 +714,32 @@ end;
 //CONSULTA GLOBAL
 procedure global;
 begin
-	clrscr;
-	contornos;
-	reset(arq);
-	for iC:=1 to filesize(arq) do
-	begin
-		read(arq,reg);
-		for iAux:=4 to 5 do
-		begin
+        clrscr;
+        contornos;
+        reset(arq);
+        for iC:=1 to filesize(arq) do
+        begin
+                read(arq,reg);
+                for iAux:=4 to 5 do
+                begin
              gotoxy(6,iAux);
              write(#186);
              gotoxy(13,iAux);
-			 write(#186);
+                         write(#186);
              gotoxy(41,iAux);
-			 write(#186);
+                         write(#186);
              gotoxy(47,iAux);
-			 write(#186);
-		     gotoxy(54,iAux);
-			 write(#186);
-		     gotoxy(70,iAux);
-			 write(#186);
-		end;
-		for iAux:=2 to 79 do
-		begin
-			gotoxy(iAux ,5);
-			write(#205);
-		end;
+                         write(#186);
+                     gotoxy(54,iAux);
+                         write(#186);
+                     gotoxy(70,iAux);
+                         write(#186);
+                end;
+                for iAux:=2 to 79 do
+                begin
+                        gotoxy(iAux ,5);
+                        write(#205);
+                end;
         gotoxy(1,5); write(#204);
         gotoxy(80,5); write(#185);
         gotoxy(6,3); write(#203);
@@ -769,11 +769,11 @@ end;
 procedure consulta;
 begin
     repeat
-	         reset(arq);
-	         clrscr;
-	         contornos;
+                 reset(arq);
+                 clrscr;
+                 contornos;
              textcolor(branco);
-	         gotoxy(5,5);
+                 gotoxy(5,5);
              write('CONSULTA POR CODIGO');
              gotoxy(5,8);
              write('CONSULTA POR NOME');
@@ -786,7 +786,7 @@ begin
              textcolor(vermelho);
              repeat
                    gotoxy(3,iX);
-           	       write(#26);
+                          write(#26);
                    key:=readkey;
                    if (key=#72) and (iX>5) then
                    begin
@@ -801,12 +801,12 @@ begin
                         inc(iX,3);
                end;
            until (key=#13);
-	case iX of 
-	5: begin
+        case iX of 
+        5: begin
             porcodigo;
        end;
-	8: begin
-		    pornome;
+        8: begin
+                    pornome;
        end;
     11:BEGIN
             global;
@@ -814,7 +814,7 @@ begin
     14:begin
             exit;
        end;
-	end;
+        end;
     cursoron;
     gotoxy(3,23);
     write('Deseja continuar consultando (S/N)? ');
@@ -931,11 +931,11 @@ begin
      until (cResp='S');
      case cCamp of
           '2':reg.iQuarto:=iNum;
-          '3':for iNum:=1 to length(sText1) do
+          '3':for iNum:=0 to length((sText1)) do
                   reg.sNome[iNum]:=upcase(sText1[iNum]);
           '4':reg.iIdade:=iNum;
           '5':reg.cGenero:=cText1;
-          '6':for iNum:=1 to length(sText1) do
+          '6':for iNum:=0 to length(sText1) do
                   reg.sConvenio[iNum]:=upcase(sText1[iNum]);
           '7':reg.cFuma:=cText1;
 
@@ -1045,8 +1045,6 @@ begin
         end;
         if iAux=2 then
         begin
-           gotoxy(3,5);
-           write('Codigo nao encontrado!');
            gotoxy(3,8);
            write('Deseja procurar novamente (S/N)? ');
            readln(cResp);
