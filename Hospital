@@ -25,94 +25,94 @@ type
                 cGenero:char;
                 sConvenio:string[15];
                 iQuarto:integer;
-                cFuma:char;
                 bExcluido:boolean;
           end;
     arquivo= file of dados;
 var
-   vetorReg:array [1..1000] of integer;
-   sIdade,sGenero,sQuarto,sFuma,sResp:string;
-   iX,iY,iCodProcurado,iC,iSoma,iAux,iErro,iAux2,iAux3,iPag,iSoma1,iAux4,iPagTotal:integer;
+   iPosicao:array [1..1000] of integer;
+   sIdade,sGenero,sQuarto,sFuma,sResp,sF:string;
+   iX,iY,iCodProcurado,iC,iSoma,iAux,iErro,iAux2,iAux3,iPag,iSoma1,iAux4,iPagTotal,iZ,iLinha,iLinha2,iCol,iExcluido:integer;
    key,cResp:char;
    reg:dados;
    arq:arquivo;
-   sAux:string[30];
+   sAux,sTitulo:string[30];
    sNomeProcurado:string[30];
+   sCod,sF1:string;
 //******************************************************************************
 //Procedure-Cara Triste*********************************************************
-procedure cara;
+procedure cara(iY:integer);
 begin
      textcolor(lightred);
-     gotoxy(47,6);
+     gotoxy(iY,6);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(47,7);
+     gotoxy(iY,7);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(47,8);
+     gotoxy(iY,8);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(46,9);
+     gotoxy(iY-1,9);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(45,10);
+     gotoxy(iY-2,10);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
      textcolor(white);
-     gotoxy(44,11);
+     gotoxy(iY-3,11);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(43,12);
+     gotoxy(iY-4,12);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(42,13);
+     gotoxy(iY-5,13);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(41,14);
+     gotoxy(iY-6,14);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(40,15);
+     gotoxy(iY-7,15);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(41,16);
+     gotoxy(iY-6,16);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(42,17);
+     gotoxy(iY-5,17);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(43,18);
+     gotoxy(iY-4,18);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(44,19);
+     gotoxy(iY-3,19);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(45,20);
+     gotoxy(iY-2,20);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(46,21);
+     gotoxy(iY-1,21);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(47,22);
+     gotoxy(iY,22);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
      textcolor(blue);
-     gotoxy(51,13);
+     gotoxy(iY+4,13);
      write(#219);
-     gotoxy(58,13);
+     gotoxy(iY+11,13);
      write(#219);
      textcolor(black);
-     gotoxy(57,13);
+     gotoxy(iY+10,13);
      write(#219);
-     gotoxy(50,13);
+     gotoxy(iY+3,13);
      write(#219);
-     gotoxy(50,12);
+     gotoxy(iY+3,12);
      write(#219,#219);
-     gotoxy(57,12);
+     gotoxy(iY+10,12);
      write(#219,#219);
-     gotoxy(50,16);
+     gotoxy(iY+3,16);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(49,17);
+     gotoxy(iY+2,17);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-     gotoxy(48,18);
+     gotoxy(iY+1,18);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
      textcolor(red);
-     gotoxy(52,18);
+     gotoxy(iY+5,18);
      write(#219,#219,#219,#219,#219,#219);
      textcolor(white);
-     gotoxy(54,7);
+     gotoxy(iY+7,7);
      writeln(#219);
-     gotoxy(53,8);
+     gotoxy(iY+6,8);
      writeln(#219,#219,#219);
-     gotoxy(54,9);
+     gotoxy(iY+7,9);
      writeln(#219);
      cursoron;
 end;
 //******************************************************************************
 //CONTORNOS
-procedure contornos;
+procedure contornos(sTitulo:string);
 var
    iX,iY:integer;
 begin
@@ -123,12 +123,12 @@ begin
      begin
           gotoxy(iY,1);
           write(#205);
-          gotoxy(iY,24);
+          gotoxy(iY,25);
           write(#205);
           gotoxy(iY,3);
           write(#205);
      end;
-     for iX:=2 to 23 do
+     for iX:=2 to 24 do
      begin
           gotoxy(1,iX);
           write(#186);
@@ -137,20 +137,21 @@ begin
      end;
      gotoxy(34,2);
      textcolor(branco);
-     write('HOSPITAL MDM');
+     write(sTitulo);
      textcolor(lightred);
      gotoxy(1,1);
      write(#201);
      gotoxy(80,1);
      write(#187);
-     gotoxy(80,24);
+     gotoxy(80,25);
      write(#188);
-     gotoxy(1,24);
+     gotoxy(1,25);
      write(#200);
      gotoxy(1,3);
      write(#204);
      gotoxy(80,3);
      write(#185);
+     gotoxy(1,1);
 end;
 //******************************************************************************
 //CARREGANDO
@@ -207,7 +208,7 @@ begin
      for iCont:=1 to 145 do
      begin
           textcolor(vermelho);
-          delay(15);
+          delay(10);
           if(iCont mod 5=0) then
           begin
                iaux:=iaux-1;
@@ -226,7 +227,7 @@ end;
 //TELA CADASTRO
 procedure tela(reg:dados);
 begin
-     contornos;
+     contornos('Cadastro');
      textcolor(branco);
      gotoxy(3,5);
      write('C',#162,'digo: ',reg.iCod);
@@ -240,8 +241,6 @@ begin
      write('G',#136,'nero (M/F): ');
      gotoxy(3,15);
      write('Conv',#136,'nio m',#130,'dico: ');
-     gotoxy(3,17);
-     write('Fuma (S/N)? ');
      textcolor(vermelho);
      gotoxy(53,6);
      write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
@@ -314,12 +313,12 @@ end;
 //OPÇÃO CADASTRO
 procedure cadastro;
 var
-iTamanho,iCont:Integer;
+   iTamanho,iCont:Integer;
 begin
      reset(arq);
      CLRSCR;
      CURSORON;
-     contornos;
+     contornos('Cadastro');
      seek(arq,filesize(arq));
      repeat
            reg.iCod:=filesize(arq)+1;
@@ -339,7 +338,7 @@ begin
                      nosound;
                      gotoxy(3,7);
                      clreol;
-                     write('Quarto invalido. Redigite: ');
+                     write('Quarto inv',#160,'lido. Redigite: ');
                      textcolor(vermelho);
                      gotoxy(80,7);
                      write(#186);
@@ -398,7 +397,7 @@ begin
                      nosound;
                      gotoxy(3,11);
                      clreol;
-                     write('Idade Invalida. Redigite: ');
+                     write('Idade Inv',#160,'lida. Redigite: ');
                      textcolor(vermelho);
                      gotoxy(80,11);
                      write(#186);
@@ -433,7 +432,7 @@ begin
                      nosound;
                      gotoxy(3,13);
                      clreol;
-                     write('Genero Invalido. Redigite: ');
+                     write('G',#136,'nero Inv',#160,'lido. Redigite: ');
                      gotoxy(80,13);
                      textcolor(vermelho);
                      write(#186);
@@ -496,48 +495,6 @@ begin
                 gotoxy(3,15);
                 writeln('Conv',#136,'nio m',#130,'dico: ',sConvenio);
                 //**************************************************************
-                //FUMA
-                gotoxy(15,17);
-                readln(sFuma);
-                sFuma:=Upcase(sFuma);
-                while ((sFuma[1]<>'S') and (sFuma[1]<>'N')) or (length(sFuma)>1) do
-                begin
-                     sound(1000);
-                     delay(100);
-                     nosound;
-                     gotoxy(3,17);
-                     clreol;
-                     write('Resposta Invalida. Redigite: ');
-                     gotoxy(80,17);
-                     textcolor(lightred);
-                     write(#186);
-                     gotoxy(48,17);
-                     textcolor(cinza);
-                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-                     gotoxy(55,17);
-                     textcolor(preto);
-                     write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-                     textcolor(branco);
-                     gotoxy(32,17);
-                     readln(sFuma);
-                     sFuma:=upcase(sFuma);
-                end;
-                cFuma:=sFuma[1];
-                gotoxy(3,17);
-                clreol;
-                gotoxy(80,17);
-                textcolor(lightred);
-                write(#186);
-                gotoxy(48,17);
-                textcolor(cinza);
-                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-                gotoxy(55,17);
-                textcolor(preto);
-                write(#219,#219,#219,#219,#219,#219,#219,#219,#219,#219,#219);
-                gotoxy(3,17);
-                textcolor(branco);
-                write('Fuma (S/N)? ',cFuma);
-                //**************************************************************
                 //CADASTRAR PACIENTE?
                 gotoxy(3,21);
                 write('Cadastrar paciente (S/N)? ');
@@ -550,7 +507,7 @@ begin
                      nosound;
                      gotoxy(3,21);
                      clreol;
-                     write('Resposta invalida. Redigite: ');
+                     write('Resposta inv',#160,'lida. Redigite: ');
                      gotoxy(80,21);
                      textcolor(lightred);
                      write(#186);
@@ -596,7 +553,7 @@ begin
                      nosound;
                      gotoxy(3,23);
                      clreol;
-                     write('Resposta invalida. Redigite: ');
+                     write('Resposta inv',#160,'lida. Redigite: ');
                      gotoxy(80,23);
                      textcolor(lightred);
                      write(#186);
@@ -616,7 +573,7 @@ begin
                 if (cResp='S') then
                 begin
                      clrscr;
-                     contornos;
+                     contornos('Cadastro');
                      tela(reg);
                 end
                 else
@@ -628,89 +585,97 @@ begin
 end;
 //******************************************************************************
 //CONSULTA POR NOME
-procedure pornome;
+procedure pornome(var arq:arquivo);
+var
+   sNomeProcurado:string[30];
+   iC,iInd,iPagTotal:integer;
 begin
-     reset(arq);
-     iPagTotal:=0;
      clrscr;
-     contornos;
-     gotoxy(5,5);
-     textcolor(branco);
      cursoron;
-     write('Digite o nome do paciente: ');
-     readln(sNomeProcurado);
-     clrscr;
+     contornos('Consulta por nome'); textcolor(branco);
+     gotoxy(5,5); write('Digite o nome que deseja consultar: '); readln(sNomeProcurado);
      for iC:=1 to length(sNomeProcurado) do
      begin
           sNomeProcurado[iC]:=upcase(sNomeProcurado[iC]);
      end;
-     iAux2:=pos(sNomeProcurado,reg.sNome);
+     cursoroff;
+     reset(arq);
+     iPagTotal:=0;
      for iC:=0 to filesize(arq)-1 do
      begin
-          seek(arq,iC);
           read(arq,reg);
-          with reg do
+          if (sNomeProcurado=reg.sNome) and not (reg.bExcluido) then
           begin
-               if ((iAux2<>0) and (not bExcluido)) or ((sNomeProcurado=sNome) and (not bExcluido)) then
-               begin
-                    inc(iPagTotal);
-                    vetorReg[iPagTotal]:=iC;
-               end;
+               inc(iPagTotal);
+               iPosicao[iPagTotal]:=iC;
           end;
      end;
-     iPag:=1;
-     iC:=1;
-     if (iPagTotal>0) then
-     begin
-          repeat
-                gotoxy(76,23); write(iPag,'/',iPagTotal);
-                seek(arq,iC);
-                with reg do
-                begin
-                     contornos;
-                     textcolor(branco);
-                     gotoxy(3,5);
-                     write('C',#162,'digo: ',reg.iCod);
-                     gotoxy(3,7);
-                     write('N',#248,' do quarto: ',iQuarto);
-                     gotoxy(3,9);
-                     write('Nome: ',sNome);
-                     gotoxy(3,11);
-                     write('Idade: ',iIdade);
-                     gotoxy(3,13);
-                     write('G',#136,'nero (M/F): ',cGenero);
-                     gotoxy(3,15);
-                     write('Conv',#136,'nio m',#130,'dico: ',sConvenio);
-                     gotoxy(3,17);
-                     write('Fuma (S/N)? ',cFuma);
-                end;
-                key:=readkey;
-                if (key=#77) and (iPag<iPagTotal) then
-                begin
-                     clrscr;
-                     inc(iC);
-                     inc(iPag);
-                end;
-                if (key=#75) and (iPag>1) then
-                begin
-                     clrscr;
-                     dec(iC);
-                     dec(iPag);
-                end;
-           until (key=#13);
-      end;
+     iInd:=1;
+     repeat
+           clrscr;
+           contornos('Consulta por nome');
+           seek(arq,iPosicao[iInd]);
+           read(arq,reg);
+           textcolor(15);
+           gotoxy(3,6);
+           write('C',#162,'digo do paciente: ',reg.iCod);
+           gotoxy(3,9);
+           write('Quarto do paciente: ',reg.iQuarto);
+           gotoxy(3,12);
+           write('Nome do paciente: ',reg.sNome);
+           gotoxy(3,15);
+           write('Idade: ',reg.iIdade);
+           gotoxy(3,18);
+           write('G',#136,'nero: ',reg.cGenero);
+           gotoxy(3,21);
+           write('Conv',#136,'nio: ',reg.sConvenio);
+           gotoxy(32,24); write('ESC - Encerrar programa   V - voltar   ',#27,' ',#26,'  ',iInd,'/',iPagTotal);
+           if (iInd=iPagTotal) then
+           begin
+                gotoxy(73,24); write(' ');
+           end;
+           if (iInd=1) then
+           begin
+                gotoxy(71,24); write(' ');
+           end;
+           if (iPagTotal=1) then
+           begin
+                gotoxy(70,24); write('         ');
+           end;
+           key:=readkey;
+           if (key=#77) and (iInd<iPagTotal) then
+           begin
+                inc(iInd);
+           end;
+           if (key=#75) and (iInd>1) then
+           begin
+                dec(iInd);
+           end;
+     until (key=#13) or (key=#27) or (upcase(key)='V');
+     if key=#27 then
+        exit;
+     if upcase(key)='V' then
+        exit;
 end;
 //******************************************************************************
 //CONSULTA POR CÓDIGO
 procedure porcodigo;
 begin
         clrscr;
-        contornos;
+        contornos('Consulta por c'+#162+'digo');
         gotoxy(5,5);
         textcolor(branco);
         cursoron;
-        write('Digite o codigo do paciente: ');
-        readln(iCodProcurado);
+        write('Digite o c',#162,'digo do paciente: ');
+        readln(sCod); val(sCod,iCodProcurado,iErro);
+        while (iErro<>0) or (iCodProcurado<1) do
+        begin
+             gotoxy(5,5);
+             clreol; textcolor(vermelho); gotoxy(80,5); write(#186);
+             textcolor(branco); gotoxy(5,5);
+             write('Digite valores validos e positivos: ');
+             readln(sCod); val(sCod,iCodProcurado,iErro);
+        end;
         reset(arq);
         iSoma:=0;
         //TESTE
@@ -719,7 +684,7 @@ begin
          with reg do
          begin
               read(arq,reg);
-              if (iCodProcurado=iCod) then
+              if (iCodProcurado=iCod) and not bExcluido then
                  begin
                       inc(iSoma);
                       break;
@@ -728,30 +693,117 @@ begin
     end;
     if (iSoma>0) then
     begin
+         cursoroff;
          clrscr;
-         contornos;
-         tela(reg);
-         gotoxy(17,7);
-         write(reg.iQuarto);
-         gotoxy(9,9);
-         write(reg.sNome);
-         gotoxy(10,11);
-         write(reg.iIdade);
-         gotoxy(17,13);
-         write(reg.cGenero);
-         gotoxy(20,15);
-         write(reg.sConvenio);
-         gotoxy(15,17);
-         write(reg.cFuma);
+         contornos('Consulta por c'+#162+'digo');
+         textcolor(15);
+         gotoxy(3,6);
+         write('C',#162,'digo do paciente: ',reg.iCod);
+         gotoxy(3,9);
+         write('Quarto do paciente: ',reg.iQuarto);
+         gotoxy(3,12);
+         write('Nome do paciente: ',reg.sNome);
+         gotoxy(3,15);
+         write('Idade: ',reg.iIdade);
+         gotoxy(3,18);
+         write('G',#136,'nero: ',reg.cGenero);
+         gotoxy(3,21);
+         write('Conv',#136,'nio: ',reg.sConvenio);
+         textcolor(vermelho);
+         gotoxy(39,11); write(#179); gotoxy(69,11); write(#179);
+         gotoxy(39,10); write(#218); gotoxy(69,10); write(#191);
+         gotoxy(39,12); write(#192); gotoxy(69,12); write(#217);
+         for iY:=40 to 68 do
+         begin
+              gotoxy(iY,10); write(#196); gotoxy(iY,12); write(#196);
+         end;
+         gotoxy(40,11);
+         textcolor(branco);
+         write('Deseja continuar consultando?');
+         gotoxy(40,15); write('SIM');
+         gotoxy(40,18); write('N',#199,'O');
+         cursoroff;
+         iX:=15;
+         gotoxy(40,21); write(sF1);
+         textcolor(vermelho);
+         gotoxy(39,21); write(#179); gotoxy(length(sF1)+40,21); write(#179);
+         gotoxy(39,20); write(#218); gotoxy(length(sF1)+40,20); write(#191);
+         gotoxy(39,22); write(#192); gotoxy(length(sF1)+40,22); write(#217);
+         for iY:=40 to length(sF1)+39 do
+         begin
+              gotoxy(iY,20); write(#196); gotoxy(iY,22); write(#196);
+         end;
+         repeat
+               gotoxy(38,iX); write(#26);
+               key:=readkey;
+               if (key=#72) and (iX>15) then
+               begin
+                    gotoxy(38,iX); write(' '); dec(iX,3);
+               end;
+               if (key=#80) and (iX<18)then
+               begin
+                    gotoxy(38,iX); write(' '); inc(iX,3);
+               end;
+         until (key=#13) or (key=#27);
+         case iX of
+         15:exit;
+         18:exit;
+         end;
     end;
     if (iSoma=0) then
     begin
          clrscr;
-         contornos;
-         gotoxy(32,12);
+         sound(1000);
+         delay(100);
+         nosound;
+         contornos('Consulta por c'+#162+'digo');
+         gotoxy(4,6); write(#179); gotoxy(20,6); write(#179);
+         gotoxy(4,5); write(#218); gotoxy(20,5); write(#191);
+         gotoxy(4,7); write(#192); gotoxy(20,7); write(#217);
+         for iY:=5 to 19 do
+         begin
+              gotoxy(iY,5); write(#196); gotoxy(iY,7); write(#196);
+         end;
+         gotoxy(5,6);
          textcolor(branco);
-         write('CODIGO INVALIDO!');
-         readkey;
+         write('C',#224,'DIGO INVALIDO');
+         gotoxy(5,10); write('REDIGITAR');
+         gotoxy(5,13); write('VOLTAR');
+         cursoroff;
+         gotoxy(5,17); write(sF1);
+         textcolor(vermelho);
+         gotoxy(4,17); write(#179); gotoxy(length(sF1)+5,17); write(#179);
+         gotoxy(4,16); write(#218); gotoxy(length(sF1)+5,16); write(#191);
+         gotoxy(4,18); write(#192); gotoxy(length(sF1)+5,18); write(#217);
+         for iY:=5 to length(sF1)+4 do
+         begin
+              gotoxy(iY,16); write(#196); gotoxy(iY,18); write(#196);
+         end;
+         iX:=10; iY:=50;
+         cara(iY);
+         cursoroff;
+         repeat
+               gotoxy(3,iX); write(#26);
+               key:=readkey;
+               if (key=#72) and (iX>10) then
+               begin
+                    gotoxy(3,iX); write(' '); dec(iX,3);
+               end;
+               if (key=#80) and (iX<13)then
+               begin
+                    gotoxy(3,iX); write(' '); inc(iX,3);
+               end;
+         until (key=#13) or (key=#27);
+         if key=#27 then
+            exit;
+         case iX of
+         10:begin
+                 porcodigo;
+            end;
+         13:begin
+                 exit;
+            end;
+         end;
     end;
 
 end;
@@ -759,94 +811,174 @@ end;
 //CONSULTA GLOBAL
 procedure global;
 begin
-        clrscr;
-        contornos;
-        reset(arq);
-        for iC:=1 to filesize(arq) do
-        begin
-                read(arq,reg);
-                for iAux:=4 to 5 do
-                begin
-             gotoxy(6,iAux);
-             write(#186);
-             gotoxy(13,iAux);
-                         write(#186);
-             gotoxy(41,iAux);
-                         write(#186);
-             gotoxy(47,iAux);
-                         write(#186);
-                     gotoxy(54,iAux);
-                         write(#186);
-                     gotoxy(70,iAux);
-                         write(#186);
-                end;
-                for iAux:=2 to 79 do
-                begin
-                        gotoxy(iAux ,5);
-                        write(#205);
-                end;
-        gotoxy(1,5);
-        write(#204);
-        gotoxy(80,5);
-        write(#185);
-        gotoxy(6,3);
-        write(#203);
-        gotoxy(13,3);
-        write(#203);
-        gotoxy(41,3);
-        write(#203);
-        gotoxy(47,3);
-        write(#203);
-        gotoxy(54,3);
-        write(#203);
-        gotoxy(70,3);
-        write(#203);
-        gotoxy(6,5);
-        write(#202);
-        gotoxy(13,5);
-        write(#202);
-        gotoxy(41,5);
-        write(#202);
-        gotoxy(47,5);
-        write(#202);
-        gotoxy(54,5);
-        write(#202);
-        gotoxy(70,5);
-        write(#202);
-        textcolor(preto);
-        gotoxy(2,4);
-        write('COD.');
-        gotoxy(7,4);
-        write('QUARTO');
-        gotoxy(25,4);
-        write('NOME');
-        gotoxy(42,4);
-        write('IDADE');
-        gotoxy(48,4);
-        write('GENERO');
-        gotoxy(58,4);
-        write('CONVENIO');
-        gotoxy(73,4);
-        write('FUMA');
+     clrscr;
+     contornos('Consulta Global');
+     reset(arq);
+     iExcluido:=0;
+     for iC:=0 to filesize(arq)-1 do
+     begin
+          read(arq,reg);
+          if (reg.bExcluido) then
+             inc(iExcluido);
      end;
+     textcolor(white);
+     gotoxy(3,4);
+     write('COD.');
+     gotoxy(9,4);
+     write('QUARTO');
+     gotoxy(32,4);
+     write('NOME');
+     gotoxy(53,4);
+     write('IDADE');
+     gotoxy(61,4);
+     write('G',#210,'NERO');
+     gotoxy(70,4);
+     write('CONV',#210,'NIO');
+     for iY:=2 to 79 do
+     begin
+          textcolor(lightred);
+          gotoxy(iY,5);
+          write(#205);
+     end;
+     for iZ:=4 to 5 do
+     begin
+          textcolor(lightred);
+          gotoxy(7,iZ);
+          write(#186);
+     end;
+     gotoxy(7,5);
+     write(#202);
+     gotoxy(7,3);
+     write(#203);
+     gotoxy(1,3);
+     write(#204);
+     gotoxy(1,5);
+     write(#204);
+     gotoxy(16,3);
+     write(#203);
+     gotoxy(16,5);
+     write(#202);
+     gotoxy(16,4);
+     write(#186);
+     gotoxy(51,3);
+     write(#203);
+     gotoxy(51,5);
+     write(#202);
+     gotoxy(51,4);
+     write(#186);
+     gotoxy(59,3);
+     write(#203);
+     gotoxy(59,5);
+     write(#202);
+     gotoxy(59,4);
+     write(#186);
+     gotoxy(68,3);
+     write(#203);
+     gotoxy(68,5);
+     write(#202);
+     gotoxy(68,4);
+     write(#186);
+     gotoxy(80,5);
+     write(#185);
+     iLinha:=5;
+     reset(arq);
+     iAux:=(2*(filesize(arq))+5)-(2*iExcluido);
+     iLinha2:=4;
+     for iX:=1 to (filesize(arq)) do
+     begin
+          read(arq,reg);
+          textcolor(white);
+          iLinha:=iLinha+2;
+          for iCol:=2 to 79 do
+          begin
+               textcolor(lightred);
+               gotoxy(iCol,iLinha);
+               writeln(#205);
+          end;
+          iLinha2:=iLinha2+2;
+          with reg do
+          begin
+               if not bExcluido then
+               begin
+               textcolor(white);
+               gotoxy(4,iLinha2);
+               write(iCod);
+               gotoxy(9,iLinha2);
+               write(iQuarto);
+               gotoxy(18,iLinha2);
+               write(sNome);
+               gotoxy(54,iLinha2);
+               write(iIdade);
+               gotoxy(63,iLinha2);
+               write(cGenero);
+               gotoxy(70,iLinha2);
+               write(sConvenio);
+               end
+               else
+               begin
+                    dec(iLinha2,2);
+                    dec(iLinha,2);
+               end;
+          end;
+
+     end;
+     textcolor(lightred);
+     for iX:=5 to iAux-iExcluido do
+          begin
+               gotoxy(7,iX);
+               write(#186);
+               gotoxy(16,iX);
+               write(#186);
+               gotoxy(51,iX);
+               write(#186);
+               gotoxy(59,iX);
+               write(#186);
+               gotoxy(68,iX);
+               write(#186);
+          end;
+     iAux2:=5;
+     repeat
+           gotoxy(1,iAux2); write(#204);
+           gotoxy(80,iAux2); write(#185);
+           gotoxy(7,iAux2); write(#206);
+           gotoxy(16,iAux2); write(#206);
+           gotoxy(51,iAux2); write(#206);
+           gotoxy(59,iAux2); write(#206);
+           gotoxy(68,iAux2); write(#206);
+           inc(iAux2,2);
+     until (iAux2=iAux) or (iAux2=iAux+1);
+     gotoxy(7,iAux); write(#202); gotoxy(16,iAux); write(#202); gotoxy(51,iAux); write(#202); gotoxy(59,iAux); write(#202); gotoxy(68,iAux); write(#202);
+     gotoxy(1,iAux); write(#204); gotoxy(80,iAux); write(#185);
+     readkey;
 end;
 //******************************************************************************
 //PROCEDURE CONSULTA
 procedure consulta;
 begin
     repeat
+          if (iX=18) or (key=#27) then
+             exit;
           reset(arq);
           clrscr;
-          contornos;
+          contornos('Hospital MDM');
           textcolor(branco);
           gotoxy(5,5);
-          write('CONSULTA POR CODIGO');
+          write('CONSULTA POR C',#224,'DIGO');
           gotoxy(5,8);
           write('CONSULTA POR NOME');
           gotoxy(5,11);
           write('CONSULTA GLOBAL');
           gotoxy(5,14);
           write('VOLTAR');
+          gotoxy(5,17); write(sF1);
+          textcolor(vermelho);
+          gotoxy(4,17); write(#179); gotoxy(length(sF1)+5,17); write(#179);
+          gotoxy(4,16); write(#218); gotoxy(length(sF1)+5,16); write(#191);
+          gotoxy(4,18); write(#192); gotoxy(length(sF1)+5,18); write(#217);
+          for iY:=5 to length(sF1)+4 do
+          begin
+               gotoxy(iY,16); write(#196); gotoxy(iY,18); write(#196);
+          end;
           iX:=5;
           cursoroff;
           textcolor(vermelho);
@@ -866,13 +998,17 @@ begin
                         write(' ');
                         inc(iX,3);
                    end;
-          until (key=#13);
+                if (key=#27) then
+                   exit;
+          until (key=#13) or (key=#27);
+          if key=#27 then
+             exit;
           case iX of
           5: begin
                   porcodigo;
              end;
           8: begin
-                  pornome;
+                  pornome(arq);
              end;
           11:BEGIN
                   global;
@@ -881,40 +1017,12 @@ begin
                   exit;
              end;
           end;
-    cursoron;
-    gotoxy(3,23);
-    write('Deseja continuar consultando (S/N)? ');
-    readln(sResp);
-    while ((upcase(sResp[1])<>'S') and (upcase(sResp[1])<>'N')) or (length(sResp)>1) do
-    begin
-         sound(1000);
-         delay(100);
-         nosound;
-         gotoxy(5,23);
-         clreol;
-         write('Resposta invalida. Redigite: ');
-         gotoxy(80,23);
-         textcolor(lightred);
-         write(#186);
-         gotoxy(35,23);
-         textcolor(branco);
-         readln(sResp);
-    end;
-    cResp:=sResp[1];
-    gotoxy(3,23);
-    clreol;
-    gotoxy(80,23);
-    textcolor(vermelho);
-    write(#186);
-    gotoxy(3,23);
-    textcolor(branco);
-    write('Deseja continuar consultando (S/N)? ',cResp);
-    until (upcase(cResp)='N');
+    until (1=0);
 end;
 //******************************************************************************
 //Alteração
 //Procedure-Alteracao***********************************************************
-Procedure Alteracao (var arquivos:Arquivo; cCamp,cTipo:char;sText:string);
+Procedure Alteracao (var arquivos:Arquivo; iX:integer; cTipo:char;sText:string);
 var
    cResp:char;
    iPos:integer;
@@ -925,7 +1033,7 @@ begin
      repeat
            textbackground(blue);
            clrscr;
-           contornos;
+           contornos('Alterac'+#198+'o');
            textcolor(white);
            gotoxy(3,5);
            write('Dado a ser alterado: ',sText);
@@ -936,14 +1044,14 @@ begin
            write('Alterar Para: ');
            case cTipo of
 {integer}       'i': begin
-                         case cCamp of
-                              '2': begin
+                         case iX of
+                              8: begin
                                         gotoxy(15,7);
                                         write(reg.iQuarto);
                                         gotoxy(17,9);
                                         readln(iNum);
                                    end;
-                              '4': begin
+                              14: begin
                                         gotoxy(15,7);
                                         write(reg.iIdade);
                                         gotoxy(17,9);
@@ -952,14 +1060,14 @@ begin
                          end;
                     end;
 {string}      's': begin
-                         case cCamp of
-                              '3': begin
+                         case iX of
+                              11: begin
                                         gotoxy(15,7);
                                         write(reg.sNome);
                                         gotoxy(17,9);
                                         readln(sText1);
                                    end;
-                              '6': begin
+                              20: begin
                                         gotoxy(15,7);
                                         write(reg.sConvenio);
                                         gotoxy(17,9);
@@ -967,45 +1075,34 @@ begin
                                    end;
                          end;
                     end;
-{char}         'c': begin
-                         case cCamp of
-                              '5': begin
-                                        gotoxy(15,7);
-                                        write(reg.cGenero);
-                                        gotoxy(17,9);
-                                        readln(cText1);
-                                   end;
-                              '7': begin
-                                        gotoxy(15,7);
-                                        write(reg.cFuma);
-                                        gotoxy(17,9);
-                                        readln(cText1);
-                                   end;
-                        end;
-                    end;
+                 'c': begin
+                           gotoxy(15,7);
+                           write(reg.cGenero);
+                           gotoxy(17,9);
+                           readln(cText1);
+                      end;
            end;
            gotoxY(3,23);
            cursoron;
-           write('Deseja confirmar alteracao (S/N)? ');
+           write('Deseja confirmar alterac',#198,'o (S/N)? ');
            readln(cResp);
            cResp:=upcase(cResp);
            while not(cResp in ['S','N']) do
                  begin
                       gotoxy(3,23);
-                      write('Resposta Invalida! Deseja confirmar alteracao (S/N)? ');
+                      write('Resposta Inv',#160,'lida! Deseja confirmar alterac',#198,'o (S/N)? ');
                       readln(cResp);
                       cResp:=upcase(cResp);
                  end;
      until (cResp='S');
-     case cCamp of
-          '2':reg.iQuarto:=iNum;
-          '3':for iNum:=0 to length((sText1)) do
+     case iX of
+          8:reg.iQuarto:=iNum;
+          11:for iNum:=0 to length((sText1)) do
                   reg.sNome[iNum]:=upcase(sText1[iNum]);
-          '4':reg.iIdade:=iNum;
-          '5':reg.cGenero:=cText1;
-          '6':for iNum:=0 to length(sText1) do
+          14:reg.iIdade:=iNum;
+          17:reg.cGenero:=upcase(cText1);
+          20:for iNum:=0 to length(sText1) do
                   reg.sConvenio[iNum]:=upcase(sText1[iNum]);
-          '7':reg.cFuma:=cText1;
 
      END;
      iPos:=filepos(arquivos)-1;
@@ -1021,115 +1118,165 @@ var
    cResp,cCamp:char;
 begin
      repeat
-     textbackground(blue);
-     clrscr;
-     contornos;
-     textcolor(white);
-     iAux:=1;
-     gotoxy(32,2);
-     write('Alterar Registros');
-     gotoxy(3,4);
-     cursoron;
-     write('Digite o Codigo do Item a ser Alterado: ');
-     readln(iCod);
-     clrscr;
-     contornos;
-     textcolor(white);
-     seek(arquivos,0);
-     while not(eof(arquivos)) do
-     begin
-          clrscr;
-          contornos;
-          textcolor(white);
-          read(arquivos,reg);
-         if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
-            begin
-                 iAux:=0;
-                 gotoxy(3,4);
-                 write('2- Numero do quarto: ',reg.iQuarto);
-                 gotoxy(3,7);
-                 write('3- Nome do paciente: ',reg.sNome);
-                 gotoxy(3,10);
-                 write('4- Idade do paciente: ',reg.iIdade);
-                 gotoxy(3,13);
-                 write('5- Genero: ',reg.cGenero);
-                 gotoxy(3,16);
-                 write('6- Convenio: ',reg.sConvenio);
-                 gotoxy(3,19);
-                 write('7- Fuma: ',reg.cFuma);
-                 gotoxy(3,23);
-                 cursoron;
-                 write('Deseja alterar o arquivo (S/N)? ');
-                 readln(cResp);
-                 cResp:=upcase(cResp);
-                 while not(cResp in ['S','N']) do
-                      begin
-                           gotoxy(3,23);
-                           cursoron;
-                           write('Resposta Invalida! Deseja alterar (S/N)? ');
-                           readln(cResp);
-                           cResp:=upcase(cResp);
-                      end;
-                if cResp='S' then
-                   begin
-                     gotoxy(3,23);
-                     cursoron;
-                     write('Deseja alterar qual campo de dados? ');
-                     readln(cCamp);
-                     while not(cCamp in ['2','3','4','5','6','7']) do
+           textbackground(blue);
+           clrscr;
+           contornos('Alterac'+#198+'o');
+           gotoxy(3,4);
+           cursoron;
+           textcolor(branco);
+           write('Digite o Codigo do Item a ser Alterado: ');
+           readln(iCod);
+           clrscr;
+           contornos('Alterac'+#198+'o');
+           textcolor(white);
+           seek(arquivos,0);
+           iSoma:=0;
+           while not(eof(arquivos)) do
+           begin
+                clrscr;
+                contornos('Alterac'+#198+'o');
+                textcolor(white);
+                read(arquivos,reg);
+                if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
+                begin
+                     inc(iSoma);
+                     textcolor(vermelho);
+                     gotoxy(5,4); write(#218); gotoxy(42,4); write(#191);
+                     gotoxy(5,6); write(#192); gotoxy(42,6); write(#217);
+                     for iY:=6 to 41 do
+                     begin
+                          gotoxy(iY,4); write(#196); gotoxy(iY,6); write(#196);
+                     end;
+                     gotoxy(5,5); write(#179); gotoxy(42,5); write(#179); gotoxy(6,5); textcolor(branco); write(' Escolha o campo que deseja alterar ');
+                     gotoxy(5,8);
+                     write('N',#163,'mero do quarto: ',reg.iQuarto);
+                     gotoxy(5,11);
+                     write('Nome do paciente: ',reg.sNome);
+                     gotoxy(5,14);
+                     write('Idade do paciente: ',reg.iIdade);
+                     gotoxy(5,17);
+                     write('G',#136,'nero: ',reg.cGenero);
+                     gotoxy(5,20);
+                     write('Conv',#136,'nio: ',reg.sConvenio);
+                     iX:=8;
+                     cursoroff;
+                     repeat
+                           gotoxy(3,iX); write(#26);
+                           key:=readkey;
+                           if (key=#72) and (iX>8) then
                            begin
-                                  gotoxy(3,23);
-                                  write('Valor Invalido! Redigite o Campo Desejado: ');
-                                  readln(cCamp);
-                             end;
-                     case cCamp of
-                          '2': Alteracao(arquivos,cCamp,'i','Quarto');
-                          '3': Alteracao(arquivos,cCamp,'s','Nome');
-                          '4': Alteracao(arquivos,cCamp,'i','Idade');
-                          '5': Alteracao(arquivos,cCamp,'c','Genero');
-                          '6': Alteracao(arquivos,cCamp,'s','Convenio');
-                          '7': Alteracao(arquivos,cCamp,'c','Fuma');
+                                gotoxy(3,iX); write(' '); dec(iX,3);
+                           end;
+                           if (key=#80) and (iX<20) then
+                           begin
+                                gotoxy(3,iX); write(' '); inc(iX,3);
+                           end;
+                     until (key=#13);
+                     case iX of
+                     8: Alteracao(arquivos,iX,'i','Quarto');
+                     11: Alteracao(arquivos,iX,'s','Nome');
+                     14: Alteracao(arquivos,iX,'i','Idade');
+                     17: Alteracao(arquivos,iX,'c','G'+#136+'nero');
+                     20: Alteracao(arquivos,iX,'s','Conv'+#136+'nio');
                      end;
                      clrscr;
-                     contornos;
+                     contornos('Alterac'+#198+'o');
                      textcolor(white);
                      gotoxy(31,10);
                      write('Registro Alterado!');
                      readkey;
-                     iAux:=2;
-                   end;
-                if cResp='N' then
-                    begin
-                         iAux:=2;
-                         eof(arquivos);
+                end;
+            end;
+            if (iSoma=0) then
+            begin
+                 iAux:=1;
+                 sF:='C'+#162+'digo inv'+#160+'lido';
+            end
+            else
+            begin
+                 iAux:=2;
+                 sF:='Deseja continuar alterando?';
+            end;
+            clrscr;
+            contornos('Alterac'+#198+'o');
+            textcolor(white);
+            if iAux=1 then
+            begin
+                 textcolor(vermelho);
+                 gotoxy(4,6); write(#179); gotoxy(length(sF)+5,6); write(#179);
+                 gotoxy(4,5); write(#218); gotoxy(length(sF)+5,5); write(#191);
+                 gotoxy(4,7); write(#192); gotoxy(length(sF)+5,7); write(#217);
+                 for iY:=5 to length(sF)+4 do
+                 begin
+                      gotoxy(iY,5); write(#196); gotoxy(iY,7); write(#196);
+                 end;
+                 cara(50);
+
+                 cursoroff;
+                 textcolor(branco);
+                 gotoxy(5,6); write(sF);
+                 gotoxy(5,10); write('REDIGITAR');
+                 gotoxy(5,13); write('VOLTAR');
+                 iX:=10;
+                 repeat
+                       gotoxy(3,iX); write(#26);
+                       key:=readkey;
+                       if (key=#72) and (iX>10) then
+                       begin
+                            gotoxy(3,iX); write(' '); dec(iX,3);
+                       end;
+                       if (key=#80) and (iX<13) then
+                       begin
+                            gotoxy(3,iX); write(' '); inc(iX,3);
+                       end;
+                 until (key=#13);
+                 case iX of
+                 10:begin
+                         altera(arquivos);
+                 end;
+                 13:begin
+                         exit;
+                    end;
                     end;
             end;
-        end;
-        clrscr;
-        contornos;
-        textcolor(white);
-        if iAux=1 then
-        begin
-             gotoxy(3,5);
-             write('Codigo nao encontrado!');
-             iAux:=2;
-             cara;
-        end;
-        if iAux=2 then
-        begin
-             gotoxy(3,5);
-             write('Deseja procurar novamente (S/N)? ');
-             readln(cResp);
-             cResp:=upcase(cResp);
-             while not(cResp in ['S','N']) do
-                   begin
-                        gotoxy(3,5);
-                        write('Resposta Invalida! Deseja procurar novamente? (S/N) ? ');
-                        readln(cResp);
-                        cResp:=upcase(cResp);
-                   end;
-        end;
-     until (cResp='N');
+            if iAux=2 then
+            begin
+                 textcolor(vermelho);
+                 gotoxy(4,6); write(#179); gotoxy(length(sF)+5,6); write(#179);
+                 gotoxy(4,5); write(#218); gotoxy(length(sF)+5,5); write(#191);
+                 gotoxy(4,7); write(#192); gotoxy(length(sF)+5,7); write(#217);
+                 for iY:=5 to length(sF)+4 do
+                 begin
+                      gotoxy(iY,5); write(#196); gotoxy(iY,7); write(#196);
+                 end;
+                 cursoroff;
+                 textcolor(branco);
+                 gotoxy(5,6); write(sF);
+                 gotoxy(5,10); write('SIM');
+                 gotoxy(5,13); write('N',#199,'O');
+                 iX:=10;
+                 repeat
+                       gotoxy(3,iX); write(#26);
+                       key:=readkey;
+                       if (key=#72) and (iX>10) then
+                       begin
+                            gotoxy(3,iX); write(' '); dec(iX,3);
+                       end;
+                       if (key=#80) and (iX<13) then
+                       begin
+                            gotoxy(3,iX); write(' '); inc(iX,3);
+                       end;
+                 until (key=#13);
+                 case iX of
+                 10:begin
+                         altera(arquivos);
+                    end;
+                 13:begin
+                         exit;
+                    end;
+                 end;
+            end;
+     until (iX=13);
 end;
 //******************************************************************************
 // EXCLUIR INFORMAÇÕOES
@@ -1138,102 +1285,151 @@ var
    iCod,iAux,iPos:integer;
    cResp:char;
 begin
-     repeat
      textbackground(blue);
      clrscr;
-     contornos;
+     contornos('Exclus'+#198+'o');
      textcolor(white);
-     iAux:=1;
      gotoxy(32,2);
      write('Apagar Registros');
      gotoxy(3,4);
-     write('Digite o Codigo do paciente a ser deletado: ');
+     cursoron;
+     write('Digite o C',#162,'digo do paciente a ser deletado: ');
      readln(iCod);
      clrscr;
-     contornos;
+     contornos('Exclus'+#162+'o');
      textcolor(white);
      seek(arquivos,0);
+     iSoma:=0;
      while not(eof(arquivos)) do
-           begin
-                clrscr;
-                contornos;
-                textcolor(white);
-                read(arquivos,reg);
-           if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
-              begin
-                   iAux:=0;
-                   gotoxy(3,4);
-                   write('Codigo do Paciente: ',reg.iCod);
-                   gotoxy(3,7);
-                   write('Quarto do paciente: ',reg.iQuarto);
-                   gotoxy(3,10);
-                   write('Nome do paciente: ',reg.sNome);
-                   gotoxy(3,13);
-                   write('Idade do paciente: ',reg.iIdade);
-                   gotoxy(3,16);
-                   write('Genero: ',reg.cGenero);
-                   gotoxy(3,19);
-                   write('Convenio: ',reg.sConvenio);
-                   gotoxy(3,22);
-                   write('Fuma: ',reg.cFuma);
-                   gotoxy(40,11);
-                   write('Deseja apagar o arquivo (S/N)? ');
-                   cursoron;
-                   readln(cResp);
-                   cResp:=upcase(cResp);
-                   while not(cResp in ['S','N']) do
-                         begin
-                              gotoxy(3,23);
-                              write('Resposta Invalida! Deseja apagar (S/N)? ');
-                              readln(cResp);
-                              cResp:=upcase(cResp);
-                         end;
-                   if cResp='S' then
-                      begin
-                           iPos:=filepos(arquivos)-1;
-                           seek(arquivos,iPos);
-                           reg.bExcluido:=TRUE;
-                           write(arquivos,reg);
-                           clrscr;
-                           contornos;
-                           textcolor(white);
-                           gotoxy(31,10);
-                           write('Registro Deletado!');
-                           readkey;
-                           iAux:=2;
-                      end
-                   else
-                       begin
-                            eof(arquivos);
-                            iAux:=2;
-                       end;
-            end;
-        end;
-        clrscr;
-        contornos;
-        textcolor(white);
-        if iAux=1 then
-           begin
-                cara;
-                gotoxy(3,5);
-                write('Codigo nao encontrado!');
-                iAux:=2;
-           end;
-        if iAux=2 then
-           begin
-                gotoxy(3,7);
-                write('Deseja procurar novamente (S/N)? ');
-                readln(cResp);
-                cResp:=upcase(cResp);
-                while not(cResp in ['S','N']) do
-                      begin
-                           gotoxy(3,5);
-                           write('Resposta Invalida! Deseja procurar novamente? (S/N)? ');
-                           readln(cResp);
-                           cResp:=upcase(cResp);
-                      end;
-           end;
-     until (cResp='N');
+     begin
+          clrscr;
+          contornos('Exclus'+#162+'o');
+          textcolor(white);
+          read(arquivos,reg);
+          if ((iCod=reg.iCod) and (reg.bExcluido=FALSE)) then
+          begin
+               inc(iSoma);
+               gotoxy(3,4);
+               write('C',#162,'digo do Paciente: ',reg.iCod);
+               gotoxy(3,7);
+               write('Quarto do paciente: ',reg.iQuarto);
+               gotoxy(3,10);
+               write('Nome do paciente: ',reg.sNome);
+               gotoxy(3,13);
+               write('Idade do paciente: ',reg.iIdade);
+               gotoxy(3,16);
+               write('G',#136,'nero: ',reg.cGenero);
+               gotoxy(3,19);
+               write('Conv',#136,'nio: ',reg.sConvenio);
+               gotoxy(40,11);
+               write('Deseja apagar o registro (S/N)? ');
+               cursoron;
+               readln(cResp);
+               cResp:=upcase(cResp);
+               while not(cResp in ['S','N']) do
+               begin
+                    gotoxy(3,23);
+                    write('Resposta Inv',#160,'lida! Deseja apagar (S/N)? ');
+                    readln(cResp);
+                    cResp:=upcase(cResp);
+               end;
+               if cResp='S' then
+               begin
+                    cursoroff;
+                    iPos:=filepos(arquivos)-1;
+                    seek(arquivos,iPos);
+                    reg.bExcluido:=TRUE;
+                    write(arquivos,reg);
+                    clrscr;
+                    contornos('Exclus'+#198+'o');
+                    textcolor(white);
+                    gotoxy(31,10);
+                    write('Registro Deletado!');
+                    readkey;
+               end
+               else
+               begin
+                    eof(arquivos);
+               end;
+          end;
+     end;
+     if (iSoma=0) then
+     begin
+          cara(50);
+          sF:='C'+#224+'DIGO INVL'+#181+'IDO';
+          textcolor(vermelho);
+          gotoxy(4,6); write(#179); gotoxy(length(sF)+5,6); write(#179);
+          gotoxy(4,5); write(#218); gotoxy(length(sF)+5,5); write(#191);
+          gotoxy(4,7); write(#192); gotoxy(length(sF)+5,7); write(#217);
+          for iY:=5 to length(sF)+4 do
+          begin
+               gotoxy(iY,5); write(#196); gotoxy(iY,7); write(#196);
+          end;
+          cursoroff;
+          textcolor(branco);
+          gotoxy(5,6); write(sF);
+          gotoxy(5,10); write('REDIGITAR');
+          gotoxy(5,13); write('VOLTAR');
+          iX:=10;
+          repeat
+                gotoxy(3,iX); write(#26);
+                key:=readkey;
+                if (key=#72) and (iX>10) then
+                begin
+                     gotoxy(3,iX); write(' '); dec(iX,3);
+                end;
+                if (key=#80) and (iX<13) then
+                begin
+                     gotoxy(3,iX); write(' '); inc(iX,3);
+                end;
+          until (key=#13);
+          case iX of
+          10:begin
+                  excluir(arquivos);
+          end;
+          13:begin
+                  exit;
+             end;
+          end;
+     end
+     else
+     begin
+          sF:='Deseja continuar exclus'+#198+'o?';
+          textcolor(vermelho);
+          gotoxy(4,6); write(#179); gotoxy(length(sF)+5,6); write(#179);
+          gotoxy(4,5); write(#218); gotoxy(length(sF)+5,5); write(#191);
+          gotoxy(4,7); write(#192); gotoxy(length(sF)+5,7); write(#217);
+          for iY:=5 to length(sF)+4 do
+          begin
+               gotoxy(iY,5); write(#196); gotoxy(iY,7); write(#196);
+          end;
+          cursoroff;
+          textcolor(branco);
+          gotoxy(5,6); write(sF);
+          gotoxy(5,10); write('SIM');
+          gotoxy(5,13); write('N',#199,'O');
+          iX:=10;
+          repeat
+                gotoxy(3,iX); write(#26);
+                key:=readkey;
+                if (key=#72) and (iX>10) then
+                begin
+                     gotoxy(3,iX); write(' '); dec(iX,3);
+                end;
+                if (key=#80) and (iX<13) then
+                begin
+                     gotoxy(3,iX); write(' '); inc(iX,3);
+                     end;
+          until (key=#13);
+          case iX of
+          10:begin
+                  excluir(arquivos);
+             end;
+          13:begin
+                  exit;
+             end;
+          end;
+     end;
 end;
 //******************************************************************************
 //Sobre o programa
@@ -1241,10 +1437,7 @@ procedure sobre;
 begin
 textbackground(blue);
               clrscr;
-              contornos;;
-              gotoxy(37,4);
-              textcolor(lightred);
-              write(' SOBRE');
+              contornos('Sobre');
               textcolor(branco);
               gotoxy(29,6);
               delay(250);
@@ -1271,11 +1464,11 @@ textbackground(blue);
               writeln('Equipe:');
               gotoxy(5,20);
               delay(250);
-              writeln('*Maria Luiza Witzler');
+              writeln(#16,' Maria Luiza Witzler');
               gotoxy(5,21);
-              writeln('*Mateus Migliorucci Hussne');
+              writeln(#16,' Mateus Migliorucci Hussne');
               gotoxy(5,22);
-              writeln('*Danilo Estevan Quintanilha');
+              writeln(#16,' Danilo Estevan Quintanilha');
               gotoxy(50,22);
               delay(250);
               write('Licenciado sob GPLv3');
@@ -1285,7 +1478,7 @@ textbackground(blue);
 //MENU PRINCIPAL - ESCOLHA
 procedure menuescolha;
 begin
-     contornos;
+     contornos('Hospital MDM');
      textcolor(branco);
      gotoxy(5,5);
      write('CADASTRAR INFORMA',#128 ,#229,'ES');
@@ -1319,7 +1512,9 @@ begin
                 write(' ');
                 inc(iX,3);
            end;
-     until (key=#13);
+     until (key=#13) or (key=#27);
+     if key=#27 then
+        exit;
      case iX of
      5:begin
             cadastro;
@@ -1341,6 +1536,7 @@ end;
 //******************************************************************************
 //BLOCO PRINCIPAL
 begin
+     sF1:='APERTE ESC PARA ENCERRAR O PROGRAMA';
      assign(arq,'c:\Trabalho\HOSPITAL.DAT');
      {$i-}
      reset(arq);
@@ -1355,9 +1551,8 @@ begin
      end;
      carregando;
      REPEAT
-           contornos;
            menuescolha;
-     UNTIL (iX=20);
+     UNTIL (iX=20) or (key=#27);
 end.
 {
 
@@ -1405,3 +1600,13 @@ Programa licenciado sob GPLv3
 --> Veja uma cópia do código fonte em: https://github.com/DaniloStudios/Hospital-MDM
 
 }
+
+
+
+
+{COISAS PARA ARRUMAR
+                    - CONSULTA GLOBAL (ESQUEMA DE PAGINAS)
+                    - CONSULTA POR NOME NO ESQUEMA DA ARIANE E CONSULTA POR PAGINA
+                    - ALGUMA IMAGEM NO MENU PRINCIPAL
+                    - MELHORAR BELEZA DO PROGRAMA
+                    - ARRUMAR TODOS OS TESTES DE CONSISTENCIA (COLOCANDO TAMBÉM SOM QUANDO DER ERRO)}
