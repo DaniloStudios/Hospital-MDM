@@ -622,7 +622,7 @@ begin
           begin
                iaux:=iaux-1;
                gotoxy(iaux,17);
-                            writeln(#219);
+               writeln(#219);
                gotoxy(iaux,18);
                writeln(#219);
                gotoxy(iaux,19);
@@ -1642,7 +1642,8 @@ begin
           write('CONSULTA GLOBAL');
           gotoxy(5,14);
           write('VOLTAR');
-          gotoxy(5,17); write(sF1);
+          gotoxy(5,17); 
+          write(sF1);
           textcolor(vermelho);
           gotoxy(4,17);
           write(#179);
